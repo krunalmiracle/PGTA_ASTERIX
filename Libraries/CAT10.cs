@@ -11,12 +11,13 @@ namespace DecerixUPC.Libraries
 
         public string[] message;
         public string FSPEC1;
-        public string CAT = "10";
-        public string LEN;
         public int Id;
         public int CAT10Id;
         public int airportId;
-
+        public CAT10(string[] array)
+        {
+            //Do something...
+        }
         public Dictionary<char, string> HexToBinary = new Dictionary<char, string>
         {
             { '0', "0000" },
@@ -36,7 +37,5 @@ namespace DecerixUPC.Libraries
             { 'E', "1110" },
             { 'F', "1111" }
         };
-       
-
     }
 }

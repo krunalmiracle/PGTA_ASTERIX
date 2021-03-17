@@ -8,5 +8,9 @@ namespace DecerixUPC.Libraries
 {
     class CAT21
     {
+        public CAT21(string[] array)
+        {
+            //Do something...
+        }
     }
 }

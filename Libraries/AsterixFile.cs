@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using System.Data;
+using System.Threading.Tasks;
 
-
-namespace LibreriaClases
+namespace DecerixUPC.Libraries
 {
-    public class File
+    class AsterixFile
     {
-        string path;
+        string _path;
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21> listCAT21 = new List<CAT21>();
-        DataTable tableCAT10 = new DataTable();
-        DataTable tableCAT21 = new DataTable();
+        
 
 
-        public Fichero(string name)
+        public void FileName(string name)
         {
-            this.path = name;
+            this._path = name;
         }
 
         public List<CAT10> getListCAT10()
@@ -31,7 +29,7 @@ namespace LibreriaClases
             return listCAT21;
         }
 
-        public void read()
+        public void read(string path)
         {
             byte[] fileBytes = File.ReadAllBytes(path);
             List<byte[]> listbyte = new List<byte[]>();
@@ -60,15 +58,17 @@ namespace LibreriaClases
                 string[] arrayhex = new string[buffer.Length];
                 for (int y = 0; y < buffer.Length; y++)
                 {
+                    // Byte Buffer to String Hexadecimal
                     arrayhex[y] = buffer[y].ToString("X");
                 }
-                listahex.Add(arrayhex);
+                // Save the packet in hex format
+                listhex.Add(arrayhex);
             }
 
-
+            // Loop through hex packet list
             for (int q = 0; q < listhex.Count; q++)
             {
-                string[] arraystring = listahex[q];
+                string[] arraystring = listhex[q];
                 int CAT = int.Parse(arraystring[0], System.Globalization.NumberStyles.HexNumber);
 
                 if (CAT == 10)
@@ -82,17 +82,10 @@ namespace LibreriaClases
                     listCAT21.Add(newcat21);
                 }
             }
-            
+
 
         }
 
-        public DataTable getTableCAT10()
-        {
-            return tableCAT10;
-        }
-        public DataTable getTableCAT21()
-        {
-            return tableCAT21;
-        }
+       
     }
 }
