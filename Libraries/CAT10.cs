@@ -8,6 +8,7 @@ namespace DecerixUPC.Libraries
 {
     class CAT10
     {
+
         public string[] message;
         public string FSPEC1;
         public string CAT = "10";
@@ -36,5 +37,6 @@ namespace DecerixUPC.Libraries
             { 'F', "1111" }
         };
        
+
     }
 }
