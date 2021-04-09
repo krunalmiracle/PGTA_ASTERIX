@@ -68,17 +68,17 @@ namespace DecerixUPC.Libraries
             // Loop through hex packet list
             for (int q = 0; q < listhex.Count; q++)
             {
-                string[] arraystring = listhex[q];
-                int CAT = int.Parse(arraystring[0], System.Globalization.NumberStyles.HexNumber);
+                string[] data_Blocks = listhex[q];
+                int CAT = int.Parse(data_Blocks[0], System.Globalization.NumberStyles.HexNumber);
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(arraystring);
+                    CAT10 newcat10 = new CAT10(data_Blocks);
                     listCAT10.Add(newcat10);
                 }
                 else if (CAT == 21)
                 {
-                    CAT21 newcat21 = new CAT21(arraystring);
+                    CAT21 newcat21 = new CAT21(data_Blocks);
                     listCAT21.Add(newcat21);
                 }
             }
