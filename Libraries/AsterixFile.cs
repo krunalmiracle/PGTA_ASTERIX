@@ -5,20 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DecerixUPC.Libraries
 {
     class AsterixFile
     {
-        string _path;
+ 
+        List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21> listCAT21 = new List<CAT21>();
         
-
-
-        public void FileName(string name)
-        {
-            this._path = name;
-        }
 
         public List<CAT10> getListCAT10()
         {
@@ -27,6 +23,16 @@ namespace DecerixUPC.Libraries
         public List<CAT21> getListCAT21()
         {
             return listCAT21;
+        }
+
+        public string getHex()
+        {
+            string hex = " " ;
+            foreach(string[] hexa in listhex){
+
+                hex = hex + String.Join("",hexa);
+            }
+            return hex;
         }
 
         public void read(string path)
@@ -51,7 +57,7 @@ namespace DecerixUPC.Libraries
                 }
             }
 
-            List<string[]> listhex = new List<string[]>();
+            
             for (int x = 0; x < listbyte.Count; x++)
             {
                 byte[] buffer = listbyte[x];
@@ -60,11 +66,12 @@ namespace DecerixUPC.Libraries
                 {
                     // Byte Buffer to String Hexadecimal
                     arrayhex[y] = buffer[y].ToString("X");
+                   // file = file + arrayhex[y].PadLeft(2, '0');
                 }
                 // Save the packet in hex format
                 listhex.Add(arrayhex);
             }
-
+            
             // Loop through hex packet list
             for (int q = 0; q < listhex.Count; q++)
             {
@@ -73,7 +80,7 @@ namespace DecerixUPC.Libraries
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(arraystring);
+                    CAT10 newcat10 = new CAT10(arraystring,new HelpDecode());
                     listCAT10.Add(newcat10);
                 }
                 else if (CAT == 21)
@@ -83,9 +90,6 @@ namespace DecerixUPC.Libraries
                 }
             }
 
-
-        }
-
-       
+        } 
     }
 }
