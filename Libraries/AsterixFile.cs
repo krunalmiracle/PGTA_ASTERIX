@@ -14,6 +14,7 @@ namespace DecerixUPC.Libraries
         List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21> listCAT21 = new List<CAT21>();
+        List<int> datablocks = new List<int>();
         
 
         public List<CAT10> getListCAT10()
@@ -25,14 +26,14 @@ namespace DecerixUPC.Libraries
             return listCAT21;
         }
 
-        public string getHex()
+        public List<string[]> getHex()
         {
-            string hex = " " ;
-            foreach(string[] hexa in listhex){
+            return listhex;
+        }
 
-                hex = hex + String.Join("",hexa);
-            }
-            return hex;
+        public List<int> getDataBlocks()
+        {
+            return datablocks;
         }
 
         public void read(string path)
@@ -71,8 +72,9 @@ namespace DecerixUPC.Libraries
                 // Save the packet in hex format
                 listhex.Add(arrayhex);
             }
-            
+
             // Loop through hex packet list
+            int offset = 3;
             for (int q = 0; q < listhex.Count; q++)
             {
                 string[] arraystring = listhex[q];
@@ -80,14 +82,17 @@ namespace DecerixUPC.Libraries
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(arraystring,new HelpDecode());
+                    CAT10 newcat10 = new CAT10(arraystring,new HelpDecode(),q, offset);
                     listCAT10.Add(newcat10);
+                    datablocks.Add(10);
                 }
                 else if (CAT == 21)
                 {
                     CAT21 newcat21 = new CAT21(arraystring);
                     listCAT21.Add(newcat21);
+                    datablocks.Add(21);
                 }
+                offset += arraystring.Length;
             }
 
         } 

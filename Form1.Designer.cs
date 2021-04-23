@@ -1,7 +1,7 @@
 ﻿
 namespace DecerixUPC
 {
-    partial class Form1
+    partial class DecodeFile
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -33,8 +33,8 @@ namespace DecerixUPC
             this.DataBlock = new System.Windows.Forms.DataGridView();
             this.DataRecord = new System.Windows.Forms.DataGridView();
             this.DataItems = new System.Windows.Forms.DataGridView();
-            this.ItemDetails = new System.Windows.Forms.ListBox();
             this.AsterixFileHex = new System.Windows.Forms.TextBox();
+            this.FieldType = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DataBlock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataItems)).BeginInit();
@@ -42,7 +42,7 @@ namespace DecerixUPC
             // 
             // loadFile
             // 
-            this.loadFile.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.loadFile.BackColor = System.Drawing.Color.LightSeaGreen;
             this.loadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFile.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.loadFile.Location = new System.Drawing.Point(29, 61);
@@ -56,67 +56,79 @@ namespace DecerixUPC
             // 
             // DataBlock
             // 
+            this.DataBlock.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DataBlock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataBlock.Location = new System.Drawing.Point(29, 193);
+            this.DataBlock.GridColor = System.Drawing.Color.LightSeaGreen;
+            this.DataBlock.Location = new System.Drawing.Point(29, 203);
+            this.DataBlock.Margin = new System.Windows.Forms.Padding(10);
             this.DataBlock.Name = "DataBlock";
             this.DataBlock.RowHeadersWidth = 62;
             this.DataBlock.RowTemplate.Height = 28;
-            this.DataBlock.Size = new System.Drawing.Size(1294, 96);
+            this.DataBlock.Size = new System.Drawing.Size(538, 183);
             this.DataBlock.TabIndex = 2;
+            this.DataBlock.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataBlock_CellContentClick);
             // 
             // DataRecord
             // 
+            this.DataRecord.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DataRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataRecord.Location = new System.Drawing.Point(29, 308);
+            this.DataRecord.GridColor = System.Drawing.Color.LightSeaGreen;
+            this.DataRecord.Location = new System.Drawing.Point(586, 203);
             this.DataRecord.Name = "DataRecord";
             this.DataRecord.RowHeadersWidth = 62;
             this.DataRecord.RowTemplate.Height = 28;
-            this.DataRecord.Size = new System.Drawing.Size(1294, 81);
+            this.DataRecord.Size = new System.Drawing.Size(737, 183);
             this.DataRecord.TabIndex = 3;
+            this.DataRecord.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataRecord_CellContentClick);
             // 
             // DataItems
             // 
+            this.DataItems.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DataItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataItems.GridColor = System.Drawing.Color.LightSeaGreen;
             this.DataItems.Location = new System.Drawing.Point(29, 407);
             this.DataItems.Name = "DataItems";
             this.DataItems.RowHeadersWidth = 62;
             this.DataItems.RowTemplate.Height = 28;
-            this.DataItems.Size = new System.Drawing.Size(680, 351);
+            this.DataItems.Size = new System.Drawing.Size(782, 342);
             this.DataItems.TabIndex = 4;
-            // 
-            // ItemDetails
-            // 
-            this.ItemDetails.FormattingEnabled = true;
-            this.ItemDetails.ItemHeight = 20;
-            this.ItemDetails.Location = new System.Drawing.Point(738, 407);
-            this.ItemDetails.Name = "ItemDetails";
-            this.ItemDetails.Size = new System.Drawing.Size(585, 284);
-            this.ItemDetails.TabIndex = 5;
+            this.DataItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataItems_CellContentClick);
             // 
             // AsterixFileHex
             // 
+            this.AsterixFileHex.ForeColor = System.Drawing.Color.Black;
             this.AsterixFileHex.Location = new System.Drawing.Point(296, 42);
             this.AsterixFileHex.Multiline = true;
             this.AsterixFileHex.Name = "AsterixFileHex";
             this.AsterixFileHex.Size = new System.Drawing.Size(1027, 130);
             this.AsterixFileHex.TabIndex = 6;
             // 
-            // Form1
+            // FieldType
+            // 
+            this.FieldType.Location = new System.Drawing.Point(849, 407);
+            this.FieldType.Multiline = true;
+            this.FieldType.Name = "FieldType";
+            this.FieldType.Size = new System.Drawing.Size(474, 342);
+            this.FieldType.TabIndex = 7;
+            // 
+            // DecodeFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(1367, 770);
+            this.Controls.Add(this.FieldType);
             this.Controls.Add(this.AsterixFileHex);
-            this.Controls.Add(this.ItemDetails);
             this.Controls.Add(this.DataItems);
             this.Controls.Add(this.DataRecord);
             this.Controls.Add(this.DataBlock);
             this.Controls.Add(this.loadFile);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "DecodeFile";
+            this.Text = "UPC DECERIX";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DataBlock)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataItems)).EndInit();
@@ -131,8 +143,8 @@ namespace DecerixUPC
         private System.Windows.Forms.DataGridView DataBlock;
         private System.Windows.Forms.DataGridView DataRecord;
         private System.Windows.Forms.DataGridView DataItems;
-        private System.Windows.Forms.ListBox ItemDetails;
         private System.Windows.Forms.TextBox AsterixFileHex;
+        private System.Windows.Forms.TextBox FieldType;
     }
 }
 
