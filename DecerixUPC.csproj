@@ -54,7 +54,7 @@
     </Compile>
     <Compile Include="Libraries\AsterixFile.cs" />
     <Compile Include="Libraries\CAT10.cs" />
-    <Compile Include="Libraries\CAT21.cs" />
+    <Compile Include="Libraries\CAT21v21.cs" />
     <Compile Include="Libraries\HelpDecode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

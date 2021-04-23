@@ -12,7 +12,7 @@ namespace DecerixUPC.Libraries
         string _path;
         List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
-        List<CAT21> listCAT21 = new List<CAT21>();
+        List<CAT21v21> listCAT21 = new List<CAT21v21>();
         
 
 
@@ -34,7 +34,7 @@ namespace DecerixUPC.Libraries
         {
             return listCAT10;
         }
-        public List<CAT21> getListCAT21()
+        public List<CAT21v21> getListCAT21()
         {
             return listCAT21;
         }
@@ -77,22 +77,20 @@ namespace DecerixUPC.Libraries
             // Loop through hex packet list
             for (int q = 0; q < listhex.Count; q++)
             {
-                string[] data_Blocks = listhex[q];
-                int CAT = int.Parse(data_Blocks[0], System.Globalization.NumberStyles.HexNumber);
+                string[] arraystring = listhex[q];
+                int CAT = int.Parse(arraystring[0], System.Globalization.NumberStyles.HexNumber);
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(data_Blocks, new HelpDecode());
+                    CAT10 newcat10 = new CAT10(arraystring, new HelpDecode());
                     listCAT10.Add(newcat10);
                 }
                 else if (CAT == 21)
                 {
-                    CAT21 newcat21 = new CAT21(data_Blocks);
+                    CAT21v21 newcat21 = new CAT21v21(arraystring, new HelpDecode());
                     listCAT21.Add(newcat21);
                 }
             }
-            Console.WriteLine("asd");
-
         }
 
        
