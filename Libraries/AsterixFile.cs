@@ -61,7 +61,6 @@ namespace DecerixUPC.Libraries
                 }
             }
 
-            List<string[]> listhex = new List<string[]>();
             for (int x = 0; x < listbyte.Count; x++)
             {
                 byte[] buffer = listbyte[x];
@@ -92,7 +91,7 @@ namespace DecerixUPC.Libraries
                     listCAT21.Add(newcat21);
                 }
             }
-
+            Console.WriteLine("asd");
 
         }
 
