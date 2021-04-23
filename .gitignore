@@ -948,3 +948,5 @@ DerivedData/
 
 
 bin/Debug
+*.cache
+obj/Debug/DecerixUPC.csprojAssemblyReference.cache
