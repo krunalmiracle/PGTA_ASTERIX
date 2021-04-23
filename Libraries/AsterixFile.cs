@@ -10,6 +10,7 @@ namespace DecerixUPC.Libraries
     class AsterixFile
     {
         string _path;
+        List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21> listCAT21 = new List<CAT21>();
         
@@ -19,7 +20,16 @@ namespace DecerixUPC.Libraries
         {
             this._path = name;
         }
+        public string getHex()
+        {
+            string hex = " ";
+            foreach (string[] hexa in listhex)
+            {
 
+                hex = hex + String.Join("", hexa);
+            }
+            return hex;
+        }
         public List<CAT10> getListCAT10()
         {
             return listCAT10;
@@ -73,7 +83,7 @@ namespace DecerixUPC.Libraries
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(data_Blocks);
+                    CAT10 newcat10 = new CAT10(data_Blocks, new HelpDecode());
                     listCAT10.Add(newcat10);
                 }
                 else if (CAT == 21)
