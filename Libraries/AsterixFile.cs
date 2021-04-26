@@ -15,8 +15,6 @@ namespace DecerixUPC.Libraries
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21v21> listCAT21 = new List<CAT21v21>();
         
-
-        List<CAT21> listCAT21 = new List<CAT21>();
         List<int> datablocks = new List<int>();
         
 
