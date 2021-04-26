@@ -76,6 +76,7 @@ namespace DecerixUPC.Libraries
 
             // Loop through hex packet list
             int offset = 3;
+            HelpDecode decode = new HelpDecode();
             for (int q = 0; q < listhex.Count; q++)
             {
                 string[] arraystring = listhex[q];
@@ -83,13 +84,13 @@ namespace DecerixUPC.Libraries
 
                 if (CAT == 10)
                 {
-                    CAT10 newcat10 = new CAT10(arraystring,new HelpDecode(),q, offset);
+                    CAT10 newcat10 = new CAT10(arraystring, decode, q, offset);
                     listCAT10.Add(newcat10);
                     datablocks.Add(10);
                 }
                 else if (CAT == 21)
                 {
-                    CAT21v21 newcat21 = new CAT21v21(arraystring, new HelpDecode());
+                    CAT21v21 newcat21 = new CAT21v21(arraystring, decode);
                     listCAT21.Add(newcat21);
                     datablocks.Add(21);
                 }

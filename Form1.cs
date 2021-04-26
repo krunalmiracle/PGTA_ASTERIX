@@ -12,7 +12,7 @@ namespace DecerixUPC
 {
     public partial class DecodeFile : Form
     {
-        List<CAT21> cat21;
+        List<CAT21v21> cat21;
         List<CAT10> cat10;
         CAT10 selectedCat10;
         public DecodeFile()
