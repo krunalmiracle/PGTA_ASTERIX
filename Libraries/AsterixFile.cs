@@ -90,7 +90,7 @@ namespace DecerixUPC.Libraries
                 }
                 else if (CAT == 21)
                 {
-                    CAT21v21 newcat21 = new CAT21v21(arraystring, decode);
+                    CAT21v21 newcat21 = new CAT21v21(arraystring, decode, q, offset);
                     listCAT21.Add(newcat21);
                     datablocks.Add(21);
                 }

@@ -12,10 +12,18 @@ namespace DecerixUPC.Libraries
         readonly string[] message;
         public List<string> items = new List<string>();
 
+        public int Id;
+        public int numOctets;
+        public int numItems = 0;
+        public List<int> FRN = new List<int>();
+        public List<int> offset = new List<int>();
+        public List<String> FieldType = new List<String>();
+        public List<String> Description = new List<String>();
+
         // COMPUTE PARAMETERS
 
         //MESSAGE TYPE
-            public string messageType;
+        public string messageType;
 
         //DATA SOURCE IDENTIFIER
             public string SAC;
@@ -59,174 +67,177 @@ namespace DecerixUPC.Libraries
         // Air Speed
             public string Air_Speed;
         //TARGET ADDRESS
-        public string Target_address;
+            public string Target_address;
         // Time of Message Reception Position
-        public string Time_of_Message_Reception_Position;
+            public string Time_of_Message_Reception_Position;
         // Time_of_Message_Reception_Position_High_Precision
-        public string Time_of_Message_Reception_Position_High_Precision;
+            public string Time_of_Message_Reception_Position_High_Precision;
         // Time_of_Message_Reception_Velocity
-        public string Time_of_Message_Reception_Velocity;
+            public string Time_of_Message_Reception_Velocity;
         // Data Item I021/076, Time of Message Reception of Velocity–High Precision
-        public string Time_of_Message_Reception_Velocity_High_Precision;
-        public string Geometric_Height;
-        public string Quality_Indicators;
+            public string Time_of_Message_Reception_Velocity_High_Precision;
+            public string Geometric_Height;
+            public string Quality_Indicators;
         // Quality Indicators
-        public string NUCr_NACv;
-        public string NUCp_NIC;
-        public string NICbaro;
-        public string SIL;
-        public string NACp;
-        public string SILS;
-        public string SDA;
-        public string GVA;
-        public int PIC;
-        public string ICB;
-        public string NUCp;
-        public string NIC;
+            public string NUCr_NACv;
+            public string NUCp_NIC;
+            public string NICbaro;
+            public string SIL;
+            public string NACp;
+            public string SILS;
+            public string SDA;
+            public string GVA;
+            public int PIC;
+            public string ICB;
+            public string NUCp;
+            public string NIC;
         // MOPS Version
-        public string VNS;
-        public string LTT;
-        public string MOPS;
+            public string VNS;
+            public string LTT;
+            public string MOPS;
         // Mode 3/A Code in Octal Representation
-        public string ModeA3;
+            public string ModeA3;
         // Roll Angle
-        public string Roll_Angle;
+            public string Roll_Angle;
         // Flight Level
-        public string Flight_Level;
+            public string Flight_Level;
         //Magnetic Heading (Element of Air Vector).
-        public string Magnetic_Heading;
+            public string Magnetic_Heading;
         //Target Status
-        public string ICF;
-        public string LNAV;
-        public string PS;
-        public string SS;
+            public string ICF;
+            public string LNAV;
+            public string PS;
+            public string SS;
         //Barometric Vertical Rate, in two’s complement form.
-        public string Barometric_Vertical_Rate;
+            public string Barometric_Vertical_Rate;
         //Geometric Vertical Rate, in two’s complement form, with reference to WGS-84.
-        public string Geometric_Vertical_Rate;
+            public string Geometric_Vertical_Rate;
         //  Ground Speed and Track Angle elements of Airborne Ground Vector.
-        public string Ground_Speed;
-        public string Track_Angle;
-        public string Ground_vector;
+            public string Ground_Speed;
+            public string Track_Angle;
+            public string Ground_vector;
         // Track Angle Rate, Rate of Turn, in two’s complement form.
-        public string Track_Angle_Rate;
+            public string Track_Angle_Rate;
         // Time of ASTERIX Report Transmission
-        public string Time_of_Asterix_Report_Transmission;
-        public int Time_of_day_sec;
+            public string Time_of_Asterix_Report_Transmission;
+            public int TimeOfDayInSeconds;
         // Data Item I021/170, Target Identification
-        public string Target_Identification;
+            public string Target_Identification;
         //EMITTER CATEGORY
-        public string ECAT;
+            public string ECAT;
         // Meteorological information.
-        public int MET_present = 0;
-        public string Wind_Speed;
-        public string Wind_Direction;
-        public string Temperature;
-        public string Turbulence;
+            public int MET_present = 0;
+            public string Wind_Speed;
+            public string Wind_Direction;
+            public string Temperature;
+            public string Turbulence;
         // Data Item I021/146, Selected Altitude
-        public string SAS;
-        public string Source;
-        public string Sel_Altitude;
-        public string Selected_Altitude;
+            public string SAS;
+            public string Source;
+            public string Sel_Altitude;
+            public string Selected_Altitude;
         // Data Item I021/148, Final State Selected Altitude
-        public string MV;
-        public string AH;
-        public string AM;
-        public string Final_State_Altitude;
+            public string MV;
+            public string AH;
+            public string AM;
+            public string Final_State_Altitude;
         //TRAJECTORY INTENT
-        public int Trajectory_present = 0;
-        public bool subfield1;
-        public bool subfield2;
-        public string NAV;
-        public string NVB;
-        public int REP;
-        public string[] TCA;
-        public string[] NC;
-        public int[] TCP;
-        public string[] Altitude;
-        public string[] Latitude;
-        public string[] Longitude;
-        public string[] Point_Type;
-        public string[] TD;
-        public string[] TRA;
-        public string[] TOA;
-        public string[] TOV;
-        public string[] TTR;
+            public int Trajectory_present = 0;
+            public bool subfield1;
+            public bool subfield2;
+            public string NAV;
+            public string NVB;
+            public int REP;
+            public string[] TCA;
+            public string[] NC;
+            public int[] TCP;
+            public string[] Altitude;
+            public string[] Latitude;
+            public string[] Longitude;
+            public string[] Point_Type;
+            public string[] TD;
+            public string[] TRA;
+            public string[] TOA;
+            public string[] TOV;
+            public string[] TTR;
         // Data Item I021/016, Service Management
-        public string RP;
+            public string RP;
         // Data Item I021/008, Aircraft Operational Status
-        public string RA;
-        public string TC;
-        public string TS;
-        public string ARV;
-        public string CDTIA;
-        public string Not_TCAS;
-        public string SA;
+            public string RA;
+            public string TC;
+            public string TS;
+            public string ARV;
+            public string CDTIA;
+            public string Not_TCAS;
+            public string SA;
         // Data Item I021/271, Surface Capabilities and Characteristics
-        public string POA;
-        public string CDTIS;
-        public string B2_low;
-        public string RAS;
-        public string IDENT;
-        public string LengthandWidth;
+            public string POA;
+            public string CDTIS;
+            public string B2_low;
+            public string RAS;
+            public string IDENT;
+            public string LengthandWidth;
         // Data Item I021/132, Message Amplitude
-        public string Message_Amplitude;
+            public string Message_Amplitude;
         // Data Item I021/250, Mode S MB Data
-        public string[] MB_Data;
-        public string[] BDS1;
-        public string[] BDS2;
-        public int modeS_rep;
+            public string[] MB_Data;
+            public string[] BDS1;
+            public string[] BDS2;
+            public int modeS_rep;
         // Data Item I021/260, ACAS Resolution Advisory Report
-        public string TYP;
-        public string STYP;
-        public string ARA;
-        public string RAC;
-        public string RAT;
-        public string MTE;
-        public string TTI;
-        public string TID;
+            public string TYP;
+            public string STYP;
+            public string ARA;
+            public string RAC;
+            public string RAT;
+            public string MTE;
+            public string TTI;
+            public string TID;
         // RECEIVER ID
-        public string Receiver_ID;
+            public string Receiver_ID;
         // Data Item I021/295, Data Ages
-        public int Data_Ages_present = 0;
-        public string AOS;
-        public string TRD;
-        public string M3A;
-        public string QI;
-        public string TI;
-        public string MAM;
-        public string GH;
-        public string FL;
-        public string ISA;
-        public string FSA;
-        public string AS;
-        public string TAS;
-        public string MH;
-        public string BVR;
-        public string GVR;
-        public string GV;
-        public string TAR;
-        public string TI_DataAge;
-        public string TS_DataAge;
-        public string MET;
-        public string ROA;
-        public string ARA_DataAge;
-        public string SCC;
+            public int Data_Ages_present = 0;
+            public string AOS;
+            public string TRD;
+            public string M3A;
+            public string QI;
+            public string TI;
+            public string MAM;
+            public string GH;
+            public string FL;
+            public string ISA;
+            public string FSA;
+            public string AS;
+            public string TAS;
+            public string MH;
+            public string BVR;
+            public string GVR;
+            public string GV;
+            public string TAR;
+            public string TI_DataAge;
+            public string TS_DataAge;
+            public string MET;
+            public string ROA;
+            public string ARA_DataAge;
+            public string SCC;
 
         /// Constructors
         public CAT21v21() { }
         // Constructor with message array and decoder class
-        public CAT21v21(string[] hexMessageArray, HelpDecode decode)
+        public CAT21v21(string[] hexMessageArray, HelpDecode decode, int id, int blockOffset)
         {
             try
             {
                 //Decode FSPEC
                 string FSPEC0 = decode.getFSPEC(hexMessageArray);
-                int numOctets = FSPEC0.Length / 7;
-                int index = 3 + numOctets;
+                int octetsFSPEC = FSPEC0.Length / 7;
+                int index = 3 + octetsFSPEC;
                 this.FSPEC = FSPEC0.ToCharArray(0, FSPEC0.Length);
                 this.message = decode.MessageToBinary(hexMessageArray);
-
+                // Data Item Header
+                this.Id = id;
+                this.offset.Add(blockOffset);
+                this.numOctets = hexMessageArray.Length;
                 /* From now on each function looks to see if the decoding parameter exists in the 
                  message (checking if the FSPEC in its Position == 1) and if it exists calls the function to decode the parameter */
                 // Compute_Data_Source_Identification
@@ -234,30 +245,59 @@ namespace DecerixUPC.Libraries
                     SAC = Convert.ToString(Convert.ToInt32(message[index], 2));
                     SIC = Convert.ToString(Convert.ToInt32(message[index + 1], 2));
                     index += 2;
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(1);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/010");
+                    this.Description.Add("Date Source Identification");
                 }
                 // Compute_Target_Report_Descripter
                 if (FSPEC[1] == '1') { 
 
-                    index = this.Compute_Target_Report_Descriptor(message, index); 
+                    index = this.Compute_Target_Report_Descriptor(message, index);
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(2);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/040");
+                    this.Description.Add("Target Report Descriptor");
                 }
                 // Compute_Track_Number
                 if (FSPEC[2] == '1') {
                     Track_Number = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(4, 12), 2));
                     index += 2;
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(3);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/161");
+                    this.Description.Add("Track Number");
                 }
                 //  Compute_Service_Identification
                 if (FSPEC[3] == '1') {
                     Service_Identification = Convert.ToString(Convert.ToInt32(message[index], 2));
                     index++;
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(4);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/015");
+                    this.Description.Add("Service Identification");
                 }
                 //  Compute_Time_of_Aplicabillity_Position
                 if (FSPEC[4] == '1') {
                     int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
                     double segundos = (Convert.ToDouble(str) / 128);
-                    // Time_of_day_sec = Convert.ToInt32(Math.Truncate(segundos));
                     TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
                     Time_of_Applicability_Position = tiempo.ToString(@"hh\:mm\:ss\:fff");
                     index += 3;
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(5);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/071");
+                    this.Description.Add("Time of Applicability Position");
                 }
                 //  Compute_PositionWGS_84
                 if (FSPEC[5] == '1') {
@@ -275,6 +315,12 @@ namespace DecerixUPC.Libraries
                     LatitudeWGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
                     LongitudeWGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
                     index += 3;
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(6);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/130");
+                    this.Description.Add("PositionWGS 84");
                 }
                 //  Compute_High_Resolution_PositionWGS_84
                 if (FSPEC[6] == '1') {
@@ -290,6 +336,12 @@ namespace DecerixUPC.Libraries
                     double Lonsec = Math.Round(((Longitude - (Londegres + (Convert.ToDouble(Lonmin) / 60))) * 3600), 5);
                     High_Resolution_LatitudeWGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
                     High_Resolution_LongitudeWGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
+                    // Cat21 Details
+                    this.numItems++;
+                    this.FRN.Add(7);
+                    this.offset.Add(offset.Last() + index);
+                    this.FieldType.Add("I021/131");
+                    this.Description.Add("High Resolution PositionWGS 84");
                 }
                 // Extended Cat21v2.1
                 if (FSPEC.Count() > 8)
@@ -300,11 +352,23 @@ namespace DecerixUPC.Libraries
                         TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
                         Time_of_Applicability_Velocity = tiempo.ToString(@"hh\:mm\:ss\:fff");
                         index += 3;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(8);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/0723");
+                        this.Description.Add("Time of Applicability for Velocity");
                     }
                     if (FSPEC[8] == '1') {
                         if (message[index].Substring(0, 1) == "0") { Air_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15), 2) * Math.Pow(2, -14)) + " NM/s"; }
                         else { Air_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15), 2) * 0.001) + " Mach"; }
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(9);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/150");
+                        this.Description.Add("Air Speed");
                     }
                     if (FSPEC[9] == '1') {
                         if (message[index].Substring(0, 1) == "0")
@@ -313,10 +377,22 @@ namespace DecerixUPC.Libraries
                         }
                         else { True_Air_Speed = "Value exceeds defined rage"; }
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(10);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/151");
+                        this.Description.Add("True Air Speed");
                     }
                     if (FSPEC[10] == '1') {
                         Target_address = string.Concat(decode.Binary2Hex(message[index]), decode.Binary2Hex(message[index + 1]), decode.Binary2Hex(message[index + 2]));
                         index += 3;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(11);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/080");
+                        this.Description.Add("Target address");
                     }
                     if (FSPEC[11] == '1') {
                         int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
@@ -324,6 +400,12 @@ namespace DecerixUPC.Libraries
                         TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
                         Time_of_Message_Reception_Position = tiempo.ToString(@"hh\:mm\:ss\:fff");
                         index += 3;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(12);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/073");
+                        this.Description.Add("Time of Message Reception Position");
                     }
                     if (FSPEC[12] == '1') {
                         string octet = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3]);
@@ -335,6 +417,12 @@ namespace DecerixUPC.Libraries
                         if (FSI == "01") { sec++; }
                         Time_of_Message_Reception_Position_High_Precision = Convert.ToString(sec) + " sec";
                         index += 4;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(13);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/074");
+                        this.Description.Add("Time of Message Reception of Position–High Precision");
                     }
                     if (FSPEC[13] == '1') {
                         int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
@@ -342,6 +430,12 @@ namespace DecerixUPC.Libraries
                         TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
                         Time_of_Message_Reception_Velocity = tiempo.ToString(@"hh\:mm\:ss\:fff");
                         index += 3;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(14);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/075");
+                        this.Description.Add("Time of Message Reception for Velocity");
                     }
                 }
                 if (FSPEC.Count() > 16){
@@ -356,10 +450,22 @@ namespace DecerixUPC.Libraries
                         if (FSI == "01") { sec++; }
                         Time_of_Message_Reception_Velocity_High_Precision = Convert.ToString(sec) + " sec";
                         index +=4;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(15);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/076");
+                        this.Description.Add("Time of Message Reception of Velocity–High Precision");
                     }
                     if (FSPEC[15] == '1') { 
                         Geometric_Height = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * 6.25) + " ft";
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(16);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/140");
+                        this.Description.Add("Geometric Height");
                     }
                     if (FSPEC[16] == '1') { 
                         NUCr_NACv = Convert.ToString(Convert.ToInt32(message[index].Substring(0, 3), 2));
@@ -403,6 +509,12 @@ namespace DecerixUPC.Libraries
                                 }
                             }
                         }
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(17);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/090");
+                        this.Description.Add("Quality Indicators");
 
                     }
                     if (FSPEC[17] == '1') { 
@@ -424,17 +536,41 @@ namespace DecerixUPC.Libraries
                         else { LTT = "Not assigned"; }
                         MOPS = LTT;
                         index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(18);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/210");
+                        this.Description.Add("MOPS Version");
                     }
                     if (FSPEC[18] == '1') { 
                        ModeA3 = Convert.ToString(decode.Decimal2Octal(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(4,12),2))).PadLeft(4,'0');
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(19);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/070");
+                        this.Description.Add("Mode 3/A Code in Octal Representation");
                     }
                     if (FSPEC[19] == '1') { 
-                        Roll_Angle = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index],message[index]))*0.01) + "º"; 
+                        Roll_Angle = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index],message[index]))*0.01) + "º";
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(20);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/230");
+                        this.Description.Add("Roll Angle");
                     }
                     if (FSPEC[20] == '1') { 
                         Flight_Level = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * (0.25)) + " FL";
-                        index += 2; 
+                        index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(21);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/145");
+                        this.Description.Add("Flight Level");
                     }
                 }
                 if (FSPEC.Count() > 22)
@@ -442,6 +578,12 @@ namespace DecerixUPC.Libraries
                     if (FSPEC[21] == '1') { 
                         Magnetic_Heading = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index]), 2) * (360 / (Math.Pow(2, 16)))) + "º"; 
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(22);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/152");
+                        this.Description.Add("Magnetic Heading");
                     }
                     if (FSPEC[22] == '1') { 
                         if (message[index].Substring(0, 1) == "0") { ICF = "No intent change active"; }
@@ -462,12 +604,24 @@ namespace DecerixUPC.Libraries
                         else if (ss == 2) { SS = "Temporary Alert (change in Mode 3/A Code other than emergency)"; }
                         else { SS = "SPI set"; }
                         index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(23);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/200");
+                        this.Description.Add("Target Status");
                     }
                     if (FSPEC[23] == '1') { 
                         if (message[index].Substring(0, 1) == "0") {
                         Barometric_Vertical_Rate = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1]).Substring(1, 15)) * 6.25) + " feet/minute"; }
                         else { Barometric_Vertical_Rate = "Value exceeds defined rage"; }
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(24);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/155");
+                        this.Description.Add("Barometric Vertical Rate");
                     }
                     if (FSPEC[24] == '1') { 
                         if (message[index].Substring(0, 1) == "0")
@@ -476,6 +630,12 @@ namespace DecerixUPC.Libraries
                         }
                         else { Geometric_Vertical_Rate = "Value exceeds defined rage"; }
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(25);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/157");
+                        this.Description.Add("Geometric Vertical Rate");
                     }
                     if (FSPEC[25] == '1') { 
                        if (message[index].Substring(0, 1) == "0")
@@ -487,18 +647,36 @@ namespace DecerixUPC.Libraries
                         }
                         else { Ground_vector= "Value exceeds defined rage"; }
                         index +=  4;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(26);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/160");
+                        this.Description.Add("Airborne Ground Vector");
                     }
                     if (FSPEC[26] == '1') { 
                         Track_Angle_Rate = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index]).Substring(6, 10), 2)*(1/32))+" º/s";
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(27);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/165");
+                        this.Description.Add("Track Angle Rate");
                     }
                     if (FSPEC[27] == '1') { 
                         int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
                         double segundos = (Convert.ToDouble(str) / 128);
-                        Time_of_day_sec = Convert.ToInt32(Math.Truncate(segundos));
+                        TimeOfDayInSeconds = Convert.ToInt32(Math.Truncate(segundos));
                         TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
                         Time_of_Asterix_Report_Transmission = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                        index += 3; 
+                        index += 3;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(28);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("NIL");
+                        this.Description.Add("Time of ASTERIX Report Transmission");
                     }
                 }
                 if (FSPEC.Count() > 29)
@@ -509,7 +687,13 @@ namespace DecerixUPC.Libraries
                         for (int i=0; i<8;i++) {Identification.Append(decode.Code2Char(octets.Substring(i*6,6)));}
                         string tar = Identification.ToString();
                         if (tar.Length > 1) { Target_Identification = tar; }
-                        index =  index + 6; 
+                        index =  index + 6;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(29);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/170");
+                        this.Description.Add("Target Identification");
                     }
                     if (FSPEC[29] == '1') { 
                         int ecat = Convert.ToInt32(message[index], 2);
@@ -538,7 +722,13 @@ namespace DecerixUPC.Libraries
                             if (ecat == 23) { ECAT = "Cluster obstacle"; }
                             if (ecat == 24) { ECAT = "Line obstacle"; }
                         }
-                        index++; 
+                        index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(30);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/020");
+                        this.Description.Add("Emitter Category");
                     }
                     if (FSPEC[30] == '1') { 
                         MET_present = 1;
@@ -548,7 +738,13 @@ namespace DecerixUPC.Libraries
                         if (message[indexin].Substring(1, 1) == "1") { Wind_Direction = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)) + " degrees"; indexfin += 2; }
                         if (message[indexin].Substring(2, 1) == "1") { Temperature = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)*0.25) + " ºC"; indexfin += 2; }
                         if (message[indexin].Substring(3, 1) == "1") { Turbulence = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)) + " Turbulence"; indexfin+=2; }
-                        index = indexfin; 
+                        index = indexfin;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(31);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/220");
+                        this.Description.Add("Meteorological information");
                     }
                     if (FSPEC[31] == '1') { 
                         string sou = message[index].Substring(1, 2);
@@ -559,6 +755,12 @@ namespace DecerixUPC.Libraries
                         Sel_Altitude = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index+1]).Substring(3, 13)) * 25) + " ft";
                         Selected_Altitude= "SA: "+ Convert.ToString(Sel_Altitude);
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(32);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/146");
+                        this.Description.Add("Selected Altitude");
                     }
                     if (FSPEC[32] == '1') { 
                         if (message[index].Substring(0, 1) == "0") { MV = "Not active or unknown"; }
@@ -569,6 +771,12 @@ namespace DecerixUPC.Libraries
                         else { AM = "Active"; }
                         Final_State_Altitude = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index+1]).Substring(3, 13)) * 25) + " ft";
                         index += 2;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(33);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/148");
+                        this.Description.Add("Final State Selected Altitude");
                     }
                     if (FSPEC[33] == '1') { 
                         Trajectory_present = 1;
@@ -601,7 +809,6 @@ namespace DecerixUPC.Libraries
                             TOV = new string[REP];
                             TTR = new string[REP];
                             index++;
-
                             for (int i = 0; i < REP; i++)
                             {
                                 if (message[index].Substring(0, 1) == "0") { TCA[i] = "TCP number available"; }
@@ -645,10 +852,22 @@ namespace DecerixUPC.Libraries
                                 index += 2;
                             }
                         }
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(34);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/110");
+                        this.Description.Add("Trajectory Intent");
                     }
                     if (FSPEC[34] == '1') { 
                         RP = Convert.ToString(Convert.ToDouble(Convert.ToInt32(message[index], 2)) * 0.5) + " sec";
-                        index++; 
+                        index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(35);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/016");
+                        this.Description.Add("Service Management");
                     }
 
                 }
@@ -673,6 +892,12 @@ namespace DecerixUPC.Libraries
                         if (OctetoChar[7] == '0') { SA = "Antenna Diversity"; }
                         else { SA = "Single Antenna only"; }
                         index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(36);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/008");
+                        this.Description.Add("Aircraft Operational Status");
                     }
                     if (FSPEC[36] == '1') { 
                         if (message[index].Substring(2, 1) == "0") { POA = "Position transmitted is not ADS-B Position reference point"; }
@@ -707,10 +932,22 @@ namespace DecerixUPC.Libraries
                             if (LaW == 15) { LengthandWidth = "Lenght > 85  and Width > 80"; }
                         }
                         index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(37);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/271");
+                        this.Description.Add("Surface Capabilities and Characteristics");
                     }
                     if (FSPEC[37] == '1') { 
                         Message_Amplitude = Convert.ToString(decode.TwoComplement2Decimal(message[index])) + " dBm"; 
-                        index++; 
+                        index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(38);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/132");
+                        this.Description.Add("Message Amplitude");
                     }
                     if (FSPEC[38] == '1') { 
                         int modeS_rep = Convert.ToInt32(message[index], 2);
@@ -722,7 +959,13 @@ namespace DecerixUPC.Libraries
                             BDS1[1] = message[index + 7].Substring(0, 4);
                             BDS2[1] = message[index + 7].Substring(4, 4);
                             index +=8;
-                        } 
+                        }
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(39);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/250");
+                        this.Description.Add("Mode S MB Data");
                     }
                     if (FSPEC[39] == '1') { 
                         string messg = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3], message[index + 4], message[index + 5], message[index + 6]);
@@ -735,10 +978,22 @@ namespace DecerixUPC.Libraries
                         TTI = messg.Substring(28, 2);
                         TID = messg.Substring(30, 26);
                         index +=7;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(40);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/260");
+                        this.Description.Add("ACAS Resolution Advisory Report");
                     }
                     if (FSPEC[40] == '1') { 
                         Receiver_ID = Convert.ToString(Convert.ToInt32(message[index],2));
                         index++;
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(41);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/400");
+                        this.Description.Add("Receiver ID");
                     }
                     if (FSPEC[41] == '1') { 
                         Data_Ages_present = 1;
@@ -788,6 +1043,13 @@ namespace DecerixUPC.Libraries
                             if (message[indexin + 3].Substring(0, 1) == "1") { ARA_DataAge = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
                             if (message[indexin + 3].Substring(1, 1) == "1") { SCC = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
                         }
+
+                        // Cat21 Details
+                        this.numItems++;
+                        this.FRN.Add(42);
+                        this.offset.Add(offset.Last() + index);
+                        this.FieldType.Add("I021/295");
+                        this.Description.Add("Data Aget");
                     }
                 }
             }

@@ -15,6 +15,7 @@ namespace DecerixUPC
         List<CAT21v21> cat21;
         List<CAT10> cat10;
         CAT10 selectedCat10;
+        CAT21v21 selectedCat21;
         public DecodeFile()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace DecerixUPC
             DataBlock.Columns[2].Name = "Category";
 
             DataRecord.ColumnCount = 4;
-            DataRecord.Columns[0].Name = "Block Offset";
+            DataRecord.Columns[0].Name = "Record Offset";
             DataRecord.Columns[1].Name = "Time";
             DataRecord.Columns[2].Name = "Length";
             DataRecord.Columns[3].Name = "#Items";
@@ -74,7 +75,14 @@ namespace DecerixUPC
                     DataBlock.Rows[i].Cells[1].Value = cat10[index10].numOctets;
                     DataBlock.Rows[i].Cells[2].Value = 10;
                     index10++;
-
+                }
+                if (DataBlocks[i] == 21)
+                {
+                    DataBlock.Rows[i].HeaderCell.Value = i + 1;
+                    DataBlock.Rows[i].Cells[0].Value = cat21[index21].offset[0]-3;
+                    DataBlock.Rows[i].Cells[1].Value = cat21[index21].numOctets;
+                    DataBlock.Rows[i].Cells[2].Value = 21;
+                    index21++;
                 }
             }
 
@@ -85,18 +93,23 @@ namespace DecerixUPC
         {
             int rowIndex = e.RowIndex;
             selectedCat10 = cat10.Find(CAT10 => CAT10.Id == rowIndex);
+            selectedCat21 = cat21.Find(CAT21 => CAT21.Id == rowIndex);
             if (selectedCat10 != null)
             {
                 DataRecord.Rows[0].HeaderCell.Value = 1;
-                DataRecord.Rows[0].Cells[0].Value = selectedCat10.offset;
+                DataRecord.Rows[0].Cells[0].Value = selectedCat10.offset.First();
                 DataRecord.Rows[0].Cells[1].Value = selectedCat10.TimeOfDayInSeconds;
                 DataRecord.Rows[0].Cells[2].Value = selectedCat10.numOctets - 3;
                 DataRecord.Rows[0].Cells[3].Value = selectedCat10.numItems;
-
-
-
             }
-
+            if (selectedCat21 != null)
+            {
+                DataRecord.Rows[0].HeaderCell.Value = 1;
+                DataRecord.Rows[0].Cells[0].Value = selectedCat21.offset.First();
+                DataRecord.Rows[0].Cells[1].Value = selectedCat21.TimeOfDayInSeconds;
+                DataRecord.Rows[0].Cells[2].Value = selectedCat21.numOctets - 3;
+                DataRecord.Rows[0].Cells[3].Value = selectedCat21.numItems;
+            }
         }
 
         private void DataRecord_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -110,8 +123,18 @@ namespace DecerixUPC
                 DataItems.Rows[i].Cells[2].Value = selectedCat10.FieldType[i];
                 DataItems.Rows[i].Cells[3].Value = selectedCat10.Description[i];
             }
+            for (int i = 0; i < selectedCat21.numItems - 1; i++)
+            {
+
+                DataItems.Rows[i].HeaderCell.Value = i + 1;
+                DataItems.Rows[i].Cells[0].Value = selectedCat21.offset[i];
+                DataItems.Rows[i].Cells[1].Value = selectedCat21.FRN[i];
+                DataItems.Rows[i].Cells[2].Value = selectedCat21.FieldType[i];
+                DataItems.Rows[i].Cells[3].Value = selectedCat21.Description[i];
+            }
         }
 
+        // TODO: SelectedCat21 Field in the cells.
         private void DataItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
