@@ -43,7 +43,8 @@ namespace DecerixUPC
             String filePath = openFileDialog.FileName;
             AsterixFile file = new AsterixFile();
             file.read(filePath);
-            AsterixFileHex.Text = file.getHex();
+            // All of the cat10 and cat21v2.1 have been read!!
+
         }
     }
 

@@ -91,6 +91,7 @@ namespace DecerixUPC.Libraries
                     listCAT21.Add(newcat21);
                 }
             }
+            Console.WriteLine("asas");
         }
 
        
