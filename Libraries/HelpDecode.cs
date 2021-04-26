@@ -34,8 +34,9 @@ namespace DecerixUPC.Libraries
         public string[] MessageToBinary(string[] message)
         {
             string[] binaryMessage = new string[message.Length];
-            for (int c = 0; c < message.Length; c++) { 
-                binaryMessage[c] = this.OctetHexToBinary(message[c]); }
+            for (int c = 0; c < message.Length; c++){
+                binaryMessage[c] = this.OctetHexToBinary(message[c]);
+            }
             return binaryMessage;
         }
 
@@ -114,7 +115,7 @@ namespace DecerixUPC.Libraries
                         newbits += "1";
                     i++;
                 }
-                double result = Convert.ToInt32(newbits, 2)+1;
+                double result = Convert.ToInt32(newbits, 2) + 1;
                 return -result;
             }
 
@@ -139,6 +140,14 @@ namespace DecerixUPC.Libraries
             Octet.Append(BinaryToHex[octeto.Substring(4, 4)]);
             return Octet.ToString();
         }
-
+        public string Code2Char(string Char)
+        {
+            int code = Convert.ToInt32(Char, 2);
+            List<string> codelist = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            if (code == 0)
+                return "";
+            else
+                return codelist[code - 1];
+        }
     }
 }

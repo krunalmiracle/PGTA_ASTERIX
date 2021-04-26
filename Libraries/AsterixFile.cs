@@ -13,6 +13,9 @@ namespace DecerixUPC.Libraries
  
         List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
+        List<CAT21v21> listCAT21 = new List<CAT21v21>();
+        
+
         List<CAT21> listCAT21 = new List<CAT21>();
         List<int> datablocks = new List<int>();
         
@@ -21,7 +24,7 @@ namespace DecerixUPC.Libraries
         {
             return listCAT10;
         }
-        public List<CAT21> getListCAT21()
+        public List<CAT21v21> getListCAT21()
         {
             return listCAT21;
         }
@@ -88,7 +91,7 @@ namespace DecerixUPC.Libraries
                 }
                 else if (CAT == 21)
                 {
-                    CAT21 newcat21 = new CAT21(arraystring);
+                    CAT21v21 newcat21 = new CAT21v21(arraystring, new HelpDecode());
                     listCAT21.Add(newcat21);
                     datablocks.Add(21);
                 }
