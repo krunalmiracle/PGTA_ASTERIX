@@ -17,6 +17,7 @@ namespace DecerixUPC
         CAT10 selectedCat10;
         CAT21 selectedCat21;
         public DataTable tableCAT10 = new DataTable();
+        public DataTable tableCAT21 = new DataTable();
         public DecodeFile()
         {
             InitializeComponent();
@@ -49,10 +50,10 @@ namespace DecerixUPC
 
                 //  Cat 10 for SMR y MLAT & Cat 21 para ADS-B
                 tableCAT10 = file.tablaCAT10;
+                tableCAT21 = file.tablaCAT21;
                 cat10 = file.getListCAT10();
                 cat21 = file.getListCAT21();
                 // After the list creation --> Indicate the UI to choose to show different Categories
-                cat10Table.DataSource = tableCAT10;
             }
             else if (result == DialogResult.Cancel)
             {
@@ -81,7 +82,15 @@ namespace DecerixUPC
         {
             if (tableCAT10!=null)
             {
-                cat10Table.DataSource = tableCAT10;
+                catTable.DataSource = tableCAT10;
+            }
+        }
+
+        private void cat21DataView_Click(object sender, EventArgs e)
+        {
+            if (tableCAT21 != null)
+            {
+                catTable.DataSource = tableCAT21;
             }
         }
     }

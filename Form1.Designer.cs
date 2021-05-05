@@ -36,13 +36,14 @@ namespace DecerixUPC
             this.cat21DataView = new System.Windows.Forms.Button();
             this.allDataView = new System.Windows.Forms.Button();
             this.cat10DataView = new System.Windows.Forms.Button();
-            this.cat10Table = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.cat10Table)).BeginInit();
+            this.catTable = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.catTable)).BeginInit();
             this.SuspendLayout();
             // 
             // mapView
             // 
             this.mapView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.mapView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mapView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.mapView.Location = new System.Drawing.Point(12, 309);
@@ -56,6 +57,7 @@ namespace DecerixUPC
             // about
             // 
             this.about.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.about.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.about.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.about.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.about.Location = new System.Drawing.Point(12, 422);
@@ -68,7 +70,11 @@ namespace DecerixUPC
             // 
             // dataView
             // 
-            this.dataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.dataView.BackColor = System.Drawing.Color.PowderBlue;
+            this.dataView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.dataView.Enabled = false;
+            this.dataView.FlatAppearance.BorderSize = 0;
+            this.dataView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataView.Location = new System.Drawing.Point(12, 125);
@@ -77,11 +83,11 @@ namespace DecerixUPC
             this.dataView.TabIndex = 1;
             this.dataView.Text = "Data View";
             this.dataView.UseVisualStyleBackColor = false;
-            this.dataView.Click += new System.EventHandler(this.dataView_Click);
             // 
             // loadFile
             // 
             this.loadFile.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.loadFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFile.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.loadFile.Location = new System.Drawing.Point(12, 12);
@@ -95,6 +101,7 @@ namespace DecerixUPC
             // cat21DataView
             // 
             this.cat21DataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.cat21DataView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cat21DataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cat21DataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.cat21DataView.Location = new System.Drawing.Point(30, 224);
@@ -103,10 +110,12 @@ namespace DecerixUPC
             this.cat21DataView.TabIndex = 4;
             this.cat21DataView.Text = "cat21DataView";
             this.cat21DataView.UseVisualStyleBackColor = false;
+            this.cat21DataView.Click += new System.EventHandler(this.cat21DataView_Click);
             // 
             // allDataView
             // 
             this.allDataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.allDataView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.allDataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.allDataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.allDataView.Location = new System.Drawing.Point(30, 267);
@@ -119,6 +128,7 @@ namespace DecerixUPC
             // cat10DataView
             // 
             this.cat10DataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.cat10DataView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cat10DataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cat10DataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.cat10DataView.Location = new System.Drawing.Point(30, 183);
@@ -129,16 +139,16 @@ namespace DecerixUPC
             this.cat10DataView.UseVisualStyleBackColor = false;
             this.cat10DataView.Click += new System.EventHandler(this.cat10DataView_Click);
             // 
-            // cat10Table
+            // catTable
             // 
-            this.cat10Table.AllowUserToAddRows = false;
-            this.cat10Table.AllowUserToDeleteRows = false;
-            this.cat10Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.cat10Table.Location = new System.Drawing.Point(187, 13);
-            this.cat10Table.Name = "cat10Table";
-            this.cat10Table.ReadOnly = true;
-            this.cat10Table.Size = new System.Drawing.Size(728, 457);
-            this.cat10Table.TabIndex = 7;
+            this.catTable.AllowUserToAddRows = false;
+            this.catTable.AllowUserToDeleteRows = false;
+            this.catTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.catTable.Location = new System.Drawing.Point(187, 13);
+            this.catTable.Name = "catTable";
+            this.catTable.ReadOnly = true;
+            this.catTable.Size = new System.Drawing.Size(728, 457);
+            this.catTable.TabIndex = 7;
             // 
             // DecodeFile
             // 
@@ -147,7 +157,7 @@ namespace DecerixUPC
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(927, 482);
-            this.Controls.Add(this.cat10Table);
+            this.Controls.Add(this.catTable);
             this.Controls.Add(this.cat10DataView);
             this.Controls.Add(this.allDataView);
             this.Controls.Add(this.cat21DataView);
@@ -158,7 +168,7 @@ namespace DecerixUPC
             this.Name = "DecodeFile";
             this.Text = "UPC DECERIX";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.cat10Table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.catTable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -172,7 +182,7 @@ namespace DecerixUPC
         private System.Windows.Forms.Button cat21DataView;
         private System.Windows.Forms.Button allDataView;
         private System.Windows.Forms.Button cat10DataView;
-        private System.Windows.Forms.DataGridView cat10Table;
+        private System.Windows.Forms.DataGridView catTable;
     }
 }
 
