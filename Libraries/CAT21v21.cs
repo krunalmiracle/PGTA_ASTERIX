@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DecerixUPC.Libraries
 {
-    class CAT21v21
+    class CAT21
     {
         readonly char[] FSPEC;
         readonly string[] message;
@@ -14,16 +14,12 @@ namespace DecerixUPC.Libraries
 
         public int Id;
         public int numOctets;
-        public int numItems = 0;
-        public List<int> FRN = new List<int>();
-        public List<int> offset = new List<int>();
-        public List<String> FieldType = new List<String>();
-        public List<String> Description = new List<String>();
+        
 
         // COMPUTE PARAMETERS
 
         //MESSAGE TYPE
-        public string messageType;
+            public string messageType;
 
         //DATA SOURCE IDENTIFIER
             public string SAC;
@@ -50,14 +46,14 @@ namespace DecerixUPC.Libraries
             public string Track_Number;
         // Service Identification
             public string Service_Identification;
-        // Time of Applicability for Position
+        // Time of Applicability for indexition
             public string Time_of_Applicability_Position;
-        //  Position in WGS-84 Co-ordinates.
+        //  indexition in WGS-84 Co-ordinates.
             public string LatitudeWGS_84;
             public string LongitudeWGS_84;
             public double LatitudeWGS_84_map = -200;
             public double LongitudeWGS_84_map = -200;
-        //  High-Resolution Position in WGS-84 Co-ordinates
+        //  High-Resolution indexition in WGS-84 Co-ordinates
             public string High_Resolution_LatitudeWGS_84;
             public string High_Resolution_LongitudeWGS_84;
         // Time of Applicability Velocity
@@ -68,15 +64,17 @@ namespace DecerixUPC.Libraries
             public string Air_Speed;
         //TARGET ADDRESS
             public string Target_address;
-        // Time of Message Reception Position
+        // Time of Message Reception indexition
             public string Time_of_Message_Reception_Position;
-        // Time_of_Message_Reception_Position_High_Precision
+        // Time_of_Message_Reception_indexition_High_Precision
             public string Time_of_Message_Reception_Position_High_Precision;
         // Time_of_Message_Reception_Velocity
             public string Time_of_Message_Reception_Velocity;
         // Data Item I021/076, Time of Message Reception of Velocity–High Precision
             public string Time_of_Message_Reception_Velocity_High_Precision;
+            
             public string Geometric_Height;
+
             public string Quality_Indicators;
         // Quality Indicators
             public string NUCr_NACv;
@@ -221,10 +219,14 @@ namespace DecerixUPC.Libraries
             public string ARA_DataAge;
             public string SCC;
 
-        /// Constructors
-        public CAT21v21() { }
+        /*HelpDecode decode; CAT21Helper cat21Helper;
+        public CAT21v21(HelpDecode decode, CAT10Helper cat21Helper)
+        {
+            cat21Helper.decode = decode;
+            cat21Helper.cat21Helper = cat21Helper;
+        }*/
         // Constructor with message array and decoder class
-        public CAT21v21(string[] hexMessageArray, HelpDecode decode, int id, int blockOffset)
+        public CAT21(HelpDecode decode, CAT21Helper cat21Helper, string[] hexMessageArray, int id)
         {
             try
             {
@@ -236,820 +238,340 @@ namespace DecerixUPC.Libraries
                 this.message = decode.MessageToBinary(hexMessageArray);
                 // Data Item Header
                 this.Id = id;
-                this.offset.Add(blockOffset);
                 this.numOctets = hexMessageArray.Length;
-                /* From now on each function looks to see if the decoding parameter exists in the 
-                 message (checking if the FSPEC in its Position == 1) and if it exists calls the function to decode the parameter */
-                // Compute_Data_Source_Identification
-                if (FSPEC[0] == '1') {
-                    SAC = Convert.ToString(Convert.ToInt32(message[index], 2));
-                    SIC = Convert.ToString(Convert.ToInt32(message[index + 1], 2));
-                    index += 2;
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(1);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/010");
-                    this.Description.Add("Date Source Identification");
-                }
-                // Compute_Target_Report_Descripter
-                if (FSPEC[1] == '1') { 
 
-                    index = this.Compute_Target_Report_Descriptor(message, index);
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(2);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/040");
-                    this.Description.Add("Target Report Descriptor");
+                /* From now on each function looks to see if the decoding parameter exists in the 
+                 message (checking if the FSPEC in its indexition == 1) and if it exists calls the function to decode the parameter */
+
+                if (FSPEC[0] == '1') {
+                    index = cat21Helper.Compute_Data_Source_Identification(message, index);
+                    SAC = cat21Helper.SAC;
+                    SIC = cat21Helper.SIC;
                 }
-                // Compute_Track_Number
+                if (FSPEC[1] == '1') {
+                    index = cat21Helper.Compute_Target_Report_Descripter(message, index);
+                    ATP = cat21Helper.ATP;
+                    ARC = cat21Helper.ARC;
+                    RC = cat21Helper.RC;
+                    RAB = cat21Helper.RAB;
+                    DCR = cat21Helper.DCR;
+                    GBS = cat21Helper.GBS;
+                    SIM = cat21Helper.SIM;
+                    TST = cat21Helper.TST;
+                    this.SAA = cat21Helper.SAA;
+                    CL = cat21Helper.CL;
+                    IPC = cat21Helper.IPC;
+                    NOGO = cat21Helper.NOGO;
+                    CPR = cat21Helper.CPR;
+                    LDPJ = cat21Helper.LDPJ;
+                    RCF = cat21Helper.RCF;
+                    FX = cat21Helper.FX;
+
+                }
                 if (FSPEC[2] == '1') {
-                    Track_Number = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(4, 12), 2));
-                    index += 2;
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(3);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/161");
-                    this.Description.Add("Track Number");
+                    index = cat21Helper.Compute_Track_Number(message, index);
+                    Track_Number = cat21Helper.Track_Number;
+
                 }
-                //  Compute_Service_Identification
                 if (FSPEC[3] == '1') {
-                    Service_Identification = Convert.ToString(Convert.ToInt32(message[index], 2));
-                    index++;
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(4);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/015");
-                    this.Description.Add("Service Identification");
+                    index = cat21Helper.Compute_Service_Identification(message, index);
+                    Service_Identification = cat21Helper.Service_Identification;
+                    
                 }
-                //  Compute_Time_of_Aplicabillity_Position
                 if (FSPEC[4] == '1') {
-                    int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
-                    double segundos = (Convert.ToDouble(str) / 128);
-                    TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
-                    Time_of_Applicability_Position = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                    index += 3;
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(5);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/071");
-                    this.Description.Add("Time of Applicability Position");
+                    index = cat21Helper.Compute_Time_of_Aplicabillity_Position(message, index);
+                    Time_of_Applicability_Position = cat21Helper.Time_of_Applicability_Position;
+                   
                 }
-                //  Compute_PositionWGS_84
                 if (FSPEC[5] == '1') {
-                    double Latitude = decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1], message[index + 2])) * (180 / (Math.Pow(2, 23)));
-                    index += 3;
-                    double Longitude = decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1], message[index + 2])) * (180 / (Math.Pow(2, 23)));
-                    LatitudeWGS_84_map = Convert.ToDouble(Latitude);
-                    LongitudeWGS_84_map = Convert.ToDouble(Longitude);
-                    int Latdegres = Convert.ToInt32(Math.Truncate(Latitude));
-                    int Latmin = Convert.ToInt32(Math.Truncate((Latitude - Latdegres) * 60));
-                    double Latsec = Math.Round(((Latitude - (Latdegres + (Convert.ToDouble(Latmin) / 60))) * 3600), 2);
-                    int Londegres = Convert.ToInt32(Math.Truncate(Longitude));
-                    int Lonmin = Convert.ToInt32(Math.Truncate((Longitude - Londegres) * 60));
-                    double Lonsec = Math.Round(((Longitude - (Londegres + (Convert.ToDouble(Lonmin) / 60))) * 3600), 2);
-                    LatitudeWGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
-                    LongitudeWGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
-                    index += 3;
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(6);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/130");
-                    this.Description.Add("PositionWGS 84");
+                    index = cat21Helper.Compute_PositionWGS_84(message, index);
+                    LatitudeWGS_84 = cat21Helper.LatitudeWGS_84;
+                    LongitudeWGS_84 = cat21Helper.LongitudeWGS_84;
+                    LatitudeWGS_84_map = cat21Helper.LatitudeWGS_84_map;
+                    LongitudeWGS_84_map = cat21Helper.LongitudeWGS_84_map;
+
                 }
-                //  Compute_High_Resolution_PositionWGS_84
                 if (FSPEC[6] == '1') {
-                    double Latitude = decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3])) * (180 / (Math.Pow(2, 30))); index += 4;
-                    double Longitude = decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3])) * (180 / (Math.Pow(2, 30))); index += 4;
-                    LatitudeWGS_84_map = Convert.ToDouble(Latitude);
-                    LongitudeWGS_84_map = Convert.ToDouble(Longitude);
-                    int Latdegres = Convert.ToInt32(Math.Truncate(Latitude));
-                    int Latmin = Convert.ToInt32(Math.Truncate((Latitude - Latdegres) * 60));
-                    double Latsec = Math.Round(((Latitude - (Latdegres + (Convert.ToDouble(Latmin) / 60))) * 3600), 5);
-                    int Londegres = Convert.ToInt32(Math.Truncate(Longitude));
-                    int Lonmin = Convert.ToInt32(Math.Truncate((Longitude - Londegres) * 60));
-                    double Lonsec = Math.Round(((Longitude - (Londegres + (Convert.ToDouble(Lonmin) / 60))) * 3600), 5);
-                    High_Resolution_LatitudeWGS_84 = Convert.ToString(Latdegres) + "º " + Convert.ToString(Latmin) + "' " + Convert.ToString(Latsec) + "''";
-                    High_Resolution_LongitudeWGS_84 = Convert.ToString(Londegres) + "º" + Convert.ToString(Lonmin) + "' " + Convert.ToString(Lonsec) + "''";
-                    // Cat21 Details
-                    this.numItems++;
-                    this.FRN.Add(7);
-                    this.offset.Add(offset.Last() + index);
-                    this.FieldType.Add("I021/131");
-                    this.Description.Add("High Resolution PositionWGS 84");
+                    index = cat21Helper.Compute_High_Resolution_PositionWGS_84(message, index);
+                    High_Resolution_LatitudeWGS_84 = cat21Helper.High_Resolution_LatitudeWGS_84;
+                    High_Resolution_LongitudeWGS_84 = cat21Helper.High_Resolution_LongitudeWGS_84;
+
                 }
-                // Extended Cat21v2.1
                 if (FSPEC.Count() > 8)
                 {
                     if (FSPEC[7] == '1') {
-                        int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
-                        double segundos = (Convert.ToDouble(str) / 128);
-                        TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
-                        Time_of_Applicability_Velocity = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                        index += 3;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(8);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/0723");
-                        this.Description.Add("Time of Applicability for Velocity");
+                        index = cat21Helper.Compute_Time_of_Aplicabillity_Velocity(message, index);
+                        Time_of_Applicability_Velocity = cat21Helper.Time_of_Applicability_Velocity;
+                        
                     }
                     if (FSPEC[8] == '1') {
-                        if (message[index].Substring(0, 1) == "0") { Air_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15), 2) * Math.Pow(2, -14)) + " NM/s"; }
-                        else { Air_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15), 2) * 0.001) + " Mach"; }
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(9);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/150");
-                        this.Description.Add("Air Speed");
+                        index = cat21Helper.Compute_Air_Speed(message, index);
+                        Air_Speed = cat21Helper.Air_Speed;
+                    
                     }
                     if (FSPEC[9] == '1') {
-                        if (message[index].Substring(0, 1) == "0")
-                        {
-                            True_Air_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15), 2)) + " Knots";
-                        }
-                        else { True_Air_Speed = "Value exceeds defined rage"; }
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(10);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/151");
-                        this.Description.Add("True Air Speed");
+                        index = cat21Helper.Compute_True_Air_Speed(message, index);
+                        True_Air_Speed = cat21Helper.True_Air_Speed;
+                    
                     }
                     if (FSPEC[10] == '1') {
-                        Target_address = string.Concat(decode.Binary2Hex(message[index]), decode.Binary2Hex(message[index + 1]), decode.Binary2Hex(message[index + 2]));
-                        index += 3;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(11);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/080");
-                        this.Description.Add("Target address");
+                        index = cat21Helper.Compute_Target_Address(message, index);
+                        Target_address = cat21Helper.Target_address;
+                    
                     }
                     if (FSPEC[11] == '1') {
-                        int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
-                        double segundos = (Convert.ToDouble(str) / 128);
-                        TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
-                        Time_of_Message_Reception_Position = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                        index += 3;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(12);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/073");
-                        this.Description.Add("Time of Message Reception Position");
+                        index = cat21Helper.Compute_Time_of_Message_Reception_Position(message, index);
+                        Time_of_Message_Reception_Position = cat21Helper.Time_of_Message_Reception_Position;
+                    
                     }
                     if (FSPEC[12] == '1') {
-                        string octet = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3]);
-                        string FSI = octet.Substring(0, 2);
-                        string time = octet.Substring(2, 30);
-                        int str = Convert.ToInt32(time, 2);
-                        double sec = (Convert.ToDouble(str)) * Math.Pow(2, -30);
-                        if (FSI == "10") { sec--; }
-                        if (FSI == "01") { sec++; }
-                        Time_of_Message_Reception_Position_High_Precision = Convert.ToString(sec) + " sec";
-                        index += 4;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(13);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/074");
-                        this.Description.Add("Time of Message Reception of Position–High Precision");
-                    }
-                    if (FSPEC[13] == '1') {
-                        int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
-                        double segundos = (Convert.ToDouble(str) / 128);
-                        TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
-                        Time_of_Message_Reception_Velocity = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                        index += 3;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(14);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/075");
-                        this.Description.Add("Time of Message Reception for Velocity");
-                    }
-                }
-                if (FSPEC.Count() > 16){
-                    
-                    if (FSPEC[14] == '1') {
-                         string octet = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3]);
-                        string FSI = octet.Substring(0, 2);
-                        string time = octet.Substring(2, 30);
-                        int str = Convert.ToInt32(time, 2);
-                        double sec = (Convert.ToDouble(str)) * Math.Pow(2, -30);
-                        if (FSI == "10") { sec--; }
-                        if (FSI == "01") { sec++; }
-                        Time_of_Message_Reception_Velocity_High_Precision = Convert.ToString(sec) + " sec";
-                        index +=4;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(15);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/076");
-                        this.Description.Add("Time of Message Reception of Velocity–High Precision");
-                    }
-                    if (FSPEC[15] == '1') { 
-                        Geometric_Height = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * 6.25) + " ft";
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(16);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/140");
-                        this.Description.Add("Geometric Height");
-                    }
-                    if (FSPEC[16] == '1') { 
-                        NUCr_NACv = Convert.ToString(Convert.ToInt32(message[index].Substring(0, 3), 2));
-                        NUCp_NIC = Convert.ToString(Convert.ToInt32(message[index].Substring(3, 4), 2));
-                        index++;
-                        if (message[index-1].Substring(7, 1) == "1")
-                        {
-                            
-                            NICbaro = Convert.ToString(Convert.ToInt32(message[index].Substring(0, 1), 2));
-                            SIL = Convert.ToString(Convert.ToInt32(message[index].Substring(1, 2), 2));
-                            NACp = Convert.ToString(Convert.ToInt32(message[index].Substring(3, 4), 2));
-                            index++;
-                            if (message[index-1].Substring(7, 1) == "1")
-                            {
-                                
-                                if (message[index].Substring(2, 1) == "0") { SILS = "Measured per flight-Hour"; }
-                                else { SILS = "Measured per sample"; }
-                                SDA = Convert.ToString(Convert.ToInt32(message[index].Substring(3, 2), 2));
-                                GVA = Convert.ToString(Convert.ToInt32(message[index].Substring(5, 2), 2));
-                                index++;
-                                if (message[index-1].Substring(7, 1) == "1")
-                                {
-                                    
-                                    PIC = Convert.ToInt32(message[index].Substring(0, 4), 2);
-                                    if (PIC == 0) { ICB = "No integrity(or > 20.0 NM)"; NUCp = "0"; NIC = "0"; }
-                                    if (PIC == 1) { ICB = "< 20.0 NM"; NUCp = "1"; NIC = "1"; }
-                                    if (PIC == 2) { ICB = "< 10.0 NM"; NUCp = "2"; NIC = "-"; }
-                                    if (PIC == 3) { ICB = "< 8.0 NM"; NUCp = "-"; NIC = "2"; }
-                                    if (PIC == 4) { ICB = "< 4.0 NM"; NUCp = "-"; NIC = "3"; }
-                                    if (PIC == 5) { ICB = "< 2.0 NM"; NUCp = "3"; NIC = "4"; }
-                                    if (PIC == 6) { ICB = "< 1.0 NM"; NUCp = "4"; NIC = "5"; }
-                                    if (PIC == 7) { ICB = "< 0.6 NM"; NUCp = "-"; NIC = "6 (+ 1/1)"; }
-                                    if (PIC == 8) { ICB = "< 0.5 NM"; NUCp = "5"; NIC = "6 (+ 0/0)"; }
-                                    if (PIC == 9) { ICB = "< 0.3 NM"; NUCp = "-"; NIC = "6 (+ 0/1)"; }
-                                    if (PIC == 10) { ICB = "< 0.2 NM"; NUCp = "6"; NIC = "7"; }
-                                    if (PIC == 11) { ICB = "< 0.1 NM"; NUCp = "7"; NIC = "8"; }
-                                    if (PIC == 12) { ICB = "< 0.04 NM"; NUCp = ""; NIC = "9"; }
-                                    if (PIC == 13) { ICB = "< 0.013 NM"; NUCp = "8"; NIC = "10"; }
-                                    if (PIC == 14) { ICB = "< 0.004 NM"; NUCp = "9"; NIC = "11"; }
-                                    index++;
-                                }
-                            }
-                        }
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(17);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/090");
-                        this.Description.Add("Quality Indicators");
+                        index = cat21Helper.Compute_Time_of_Message_Reception_Position_High_Precision(message, index);
+                        Time_of_Message_Reception_Position_High_Precision = cat21Helper.Time_of_Message_Reception_Position_High_Precision;
+
 
                     }
-                    if (FSPEC[17] == '1') { 
-                        if (message[index].Substring(1, 1) == "0") { VNS = "The MOPS Version is supported by the GS"; }
-                        else { VNS = "The MOPS Version is not supported by the GS"; }
-                        int ltt = Convert.ToInt32( message[index].Substring(5,3),2);
-                        if (ltt == 0) { LTT = "Other"; }
-                        else if (ltt == 1) { LTT = "UAT"; }
-                        else if (ltt == 2) 
-                        {
-                            int vn = Convert.ToInt32(message[index].Substring(2, 3), 2);
-                            string VN= "";
-                            if (vn == 0) { VN = "ED102/DO-260"; }
-                            if (vn == 1) { VN = "DO-260A"; }
-                            if (vn == 2) { VN = "ED102A/DO-260B"; }
-                            LTT= "Version Number: " + VN; 
-                        }
-                        else if (ltt == 3) { LTT = "VDL 4"; }
-                        else { LTT = "Not assigned"; }
-                        MOPS = LTT;
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(18);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/210");
-                        this.Description.Add("MOPS Version");
+                    if (FSPEC[13] == '1') {
+                        index = cat21Helper.Compute_Time_of_Message_Reception_Velocity(message, index);
+                        Time_of_Message_Reception_Velocity = cat21Helper.Time_of_Message_Reception_Velocity;
+                        
+                        
                     }
-                    if (FSPEC[18] == '1') { 
-                       ModeA3 = Convert.ToString(decode.Decimal2Octal(Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(4,12),2))).PadLeft(4,'0');
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(19);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/070");
-                        this.Description.Add("Mode 3/A Code in Octal Representation");
+                }
+                if (FSPEC.Count() > 16)
+                {
+                    if (FSPEC[14] == '1') {
+                        index = cat21Helper.Compute_Time_of_Message_Reception_Velocity_High_Precision(message, index);
+                        Time_of_Message_Reception_Velocity_High_Precision = cat21Helper.Time_of_Message_Reception_Velocity_High_Precision;
+                       
                     }
-                    if (FSPEC[19] == '1') { 
-                        Roll_Angle = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index],message[index]))*0.01) + "º";
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(20);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/230");
-                        this.Description.Add("Roll Angle");
+                    if (FSPEC[15] == '1') {
+                        index = cat21Helper.Compute_Geometric_Height(message, index);
+                        Geometric_Height = cat21Helper.Geometric_Height;
+                    
                     }
-                    if (FSPEC[20] == '1') { 
-                        Flight_Level = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * (0.25)) + " FL";
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(21);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/145");
-                        this.Description.Add("Flight Level");
+                    if (FSPEC[16] == '1') {
+                        index = cat21Helper.Compute_Quality_Indicators(message, index);
+                        Quality_Indicators = cat21Helper.Quality_Indicators;
+                        NUCr_NACv = cat21Helper.NUCr_NACv;
+                        NUCp_NIC = cat21Helper.NUCp_NIC;
+                        NICbaro = cat21Helper.NICbaro;
+                        SIL = cat21Helper.SIL;
+                        NACp = cat21Helper.NACp;
+                        SILS = cat21Helper.SILS;
+                        SDA = cat21Helper.SDA;
+                        GVA = cat21Helper.GVA;
+                        PIC = cat21Helper.PIC;
+                        ICB = cat21Helper.ICB;
+                        NUCp = cat21Helper.NUCp;
+                        NIC = cat21Helper.NIC;
+                    }
+                    if (FSPEC[17] == '1') {
+                        index = cat21Helper.Compute_MOPS_Version(message, index);
+                        VNS = cat21Helper.VNS;
+                        LTT = cat21Helper.LTT;
+                        MOPS = cat21Helper.MOPS;
+                    }
+                    if (FSPEC[18] == '1') {
+                        index = cat21Helper.Compute_Mode_A3(message, index);
+                        ModeA3 = cat21Helper.ModeA3;
+                        
+                    }
+                    if (FSPEC[19] == '1') {
+                        index = cat21Helper.Compute_Roll_Angle(message, index);
+                        Roll_Angle = cat21Helper.Roll_Angle;
+
+                    }
+                    if (FSPEC[20] == '1') {
+                        index = cat21Helper.Compute_Flight_level(message, index);
+                        Flight_Level = cat21Helper.Flight_Level;
+
                     }
                 }
                 if (FSPEC.Count() > 22)
                 {
-                    if (FSPEC[21] == '1') { 
-                        Magnetic_Heading = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index]), 2) * (360 / (Math.Pow(2, 16)))) + "º"; 
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(22);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/152");
-                        this.Description.Add("Magnetic Heading");
+                    if (FSPEC[21] == '1') {
+                        index = cat21Helper.Compute_Magnetic_Heading(message, index);
+                        Magnetic_Heading = cat21Helper.Magnetic_Heading;
+                        
                     }
-                    if (FSPEC[22] == '1') { 
-                        if (message[index].Substring(0, 1) == "0") { ICF = "No intent change active"; }
-                        else {ICF= "Intent change flag raised"; }
-                        if (message[index].Substring(1, 1) == "0") { LNAV = "LNAV Mode engaged"; }
-                        else { LNAV = "LNAV Mode not engaged"; }
-                        int ps = Convert.ToInt32(message[index].Substring(3,3), 2);
-                        if (ps==0) { PS = "No emergency / not reported"; }
-                        else if (ps == 1) { PS = "General emergency"; }
-                        else if (ps == 2) { PS = "Lifeguard / medical emergency"; }
-                        else if (ps == 3) { PS = "Minimum fuel"; }
-                        else if (ps == 4) { PS = "No communications"; }
-                        else if (ps == 5) { PS = "Unlawful interference"; }
-                        else { PS = "'Downed' Aircraft "; }
-                        int ss = Convert.ToInt32(message[index].Substring(6, 2), 2);
-                        if (ss == 0) { SS = "No condition reported"; }
-                        else if (ss == 1) { SS = "Permanent Alert (Emergency condition)"; }
-                        else if (ss == 2) { SS = "Temporary Alert (change in Mode 3/A Code other than emergency)"; }
-                        else { SS = "SPI set"; }
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(23);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/200");
-                        this.Description.Add("Target Status");
+                    if (FSPEC[22] == '1') {
+                        index = cat21Helper.Compute_Target_Status(message, index);
+                        ICF = cat21Helper.ICF;
+                        LNAV = cat21Helper.LNAV;
+                        PS = cat21Helper.PS;
+                        SS = cat21Helper.SS;
+                        
                     }
-                    if (FSPEC[23] == '1') { 
-                        if (message[index].Substring(0, 1) == "0") {
-                        Barometric_Vertical_Rate = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1]).Substring(1, 15)) * 6.25) + " feet/minute"; }
-                        else { Barometric_Vertical_Rate = "Value exceeds defined rage"; }
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(24);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/155");
-                        this.Description.Add("Barometric Vertical Rate");
+                    if (FSPEC[23] == '1') {
+                        index = cat21Helper.Compute_Barometric_Vertical_Rate(message, index);
+                        Barometric_Vertical_Rate = cat21Helper.Barometric_Vertical_Rate;
+                        
                     }
-                    if (FSPEC[24] == '1') { 
-                        if (message[index].Substring(0, 1) == "0")
-                        {
-                            Geometric_Vertical_Rate = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1]).Substring(1, 15)) * 6.25) + " feet/minute"; 
-                        }
-                        else { Geometric_Vertical_Rate = "Value exceeds defined rage"; }
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(25);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/157");
-                        this.Description.Add("Geometric Vertical Rate");
+                    if (FSPEC[24] == '1') {
+                        index = cat21Helper.Compute_Geometric_Vertical_Rate(message, index);
+                        Geometric_Vertical_Rate = cat21Helper.Geometric_Vertical_Rate;
+                       
                     }
-                    if (FSPEC[25] == '1') { 
-                       if (message[index].Substring(0, 1) == "0")
-                        {
-                            Ground_Speed = String.Format("{0:0.00}", (Convert.ToInt32(string.Concat(message[index], message[index + 1]).Substring(1, 15),2) * Math.Pow(2, -14)*3600)) +  "Knts";
-                        // double meters = 
-                            Track_Angle = String.Format("{0:0.00}", Convert.ToInt32(string.Concat(message[index + 2], message[index + 3]).Substring(0, 16),2) * (360 / (Math.Pow(2, 16))));
-                            Ground_vector = "GS: " + Ground_Speed + ", T.A: "+ String.Format("{0:0.00}",Track_Angle)+"º";
-                        }
-                        else { Ground_vector= "Value exceeds defined rage"; }
-                        index +=  4;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(26);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/160");
-                        this.Description.Add("Airborne Ground Vector");
+                    if (FSPEC[25] == '1') {
+                        index = cat21Helper.Compute_Airborne_Ground_Vector(message, index);
+                        Ground_Speed = cat21Helper.Ground_Speed;
+                        Track_Angle = cat21Helper.Track_Angle;
+                        Ground_vector = cat21Helper.Ground_vector;
+
                     }
-                    if (FSPEC[26] == '1') { 
-                        Track_Angle_Rate = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index]).Substring(6, 10), 2)*(1/32))+" º/s";
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(27);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/165");
-                        this.Description.Add("Track Angle Rate");
+                    if (FSPEC[26] == '1') {
+                        index = cat21Helper.Compute_Track_Angle_Rate(message, index);
+                        Track_Angle_Rate = cat21Helper.Track_Angle_Rate;
+                        
                     }
-                    if (FSPEC[27] == '1') { 
-                        int str = Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2);
-                        double segundos = (Convert.ToDouble(str) / 128);
-                        TimeOfDayInSeconds = Convert.ToInt32(Math.Truncate(segundos));
-                        TimeSpan tiempo = TimeSpan.FromSeconds(segundos);
-                        Time_of_Asterix_Report_Transmission = tiempo.ToString(@"hh\:mm\:ss\:fff");
-                        index += 3;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(28);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("NIL");
-                        this.Description.Add("Time of ASTERIX Report Transmission");
+                    if (FSPEC[27] == '1') {
+                        index = cat21Helper.Compute_Time_of_Asterix_Report_Transmission(message, index);
+                        Time_of_Asterix_Report_Transmission = cat21Helper.Time_of_Asterix_Report_Transmission;
+                        TimeOfDayInSeconds = cat21Helper.Time_of_day_sec;
                     }
                 }
                 if (FSPEC.Count() > 29)
                 {
-                    if (FSPEC[28] == '1') { 
-                        StringBuilder Identification= new StringBuilder();
-                        string octets = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3], message[index + 4], message[index + 5]);
-                        for (int i=0; i<8;i++) {Identification.Append(decode.Code2Char(octets.Substring(i*6,6)));}
-                        string tar = Identification.ToString();
-                        if (tar.Length > 1) { Target_Identification = tar; }
-                        index =  index + 6;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(29);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/170");
-                        this.Description.Add("Target Identification");
+                    if (FSPEC[28] == '1') {
+                        index = cat21Helper.Compute_Target_Identification(message, index);
+                        Target_Identification = cat21Helper.Target_Identification;
+                        
                     }
-                    if (FSPEC[29] == '1') { 
-                        int ecat = Convert.ToInt32(message[index], 2);
-                        if (Target_Identification == "7777XBEG") { ECAT = "No ADS-B Emitter Category Information"; }
-                        else
-                        {
-                            if (ecat == 0) { ECAT = "No ADS-B Emitter Category Information"; }
-                            if (ecat == 1) { ECAT = "Light aircraft"; }
-                            if (ecat == 2) { ECAT = "Small aircraft"; }
-                            if (ecat == 3) { ECAT = "Medium aircraft"; }
-                            if (ecat == 4) { ECAT = "High Vortex Large"; }
-                            if (ecat == 5) { ECAT = "Heavy aircraft"; }
-                            if (ecat == 6) { ECAT = "Highly manoeuvrable(5g acceleration capability) and high speed(> 400 knots cruise)"; }
-                            if (ecat == 7 || ecat == 8 || ecat == 9) { ECAT = "Reserved"; }
-                            if (ecat == 10) { ECAT = "Rotocraft"; }
-                            if (ecat == 11) { ECAT = "Glider / Sailplane"; }
-                            if (ecat == 12) { ECAT = "Lighter than air"; }
-                            if (ecat == 13) { ECAT = "Unmanned Aerial Vehicle"; }
-                            if (ecat == 14) { ECAT = "Space / Transatmospheric Vehicle"; }
-                            if (ecat == 15) { ECAT = "Ultralight / Handglider / Paraglider"; }
-                            if (ecat == 16) { ECAT = "Parachutist / Skydiver"; }
-                            if (ecat == 17 || ecat == 18 || ecat == 19) { ECAT = "Reserved"; }
-                            if (ecat == 20) { ECAT = "Surface emergency vehicle"; }
-                            if (ecat == 21) { ECAT = "Surface service vehicle"; }
-                            if (ecat == 22) { ECAT = "Fixed ground or tethered obstruction"; }
-                            if (ecat == 23) { ECAT = "Cluster obstacle"; }
-                            if (ecat == 24) { ECAT = "Line obstacle"; }
-                        }
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(30);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/020");
-                        this.Description.Add("Emitter Category");
+                    if (FSPEC[29] == '1') {
+                        index = cat21Helper.Compute_Emitter_Category(message, index);
+                        ECAT = cat21Helper.ECAT;
+                        
                     }
-                    if (FSPEC[30] == '1') { 
-                        MET_present = 1;
-                        int indexin = index;
-                        int indexfin = index++;
-                        if (message[indexin].Substring(0, 1) == "1") {Wind_Speed = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin],message[indexfin]), 2)) + " Knots"; indexfin += 2;}
-                        if (message[indexin].Substring(1, 1) == "1") { Wind_Direction = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)) + " degrees"; indexfin += 2; }
-                        if (message[indexin].Substring(2, 1) == "1") { Temperature = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)*0.25) + " ºC"; indexfin += 2; }
-                        if (message[indexin].Substring(3, 1) == "1") { Turbulence = Convert.ToString(Convert.ToInt32(string.Concat(message[indexfin], message[indexfin]), 2)) + " Turbulence"; indexfin+=2; }
-                        index = indexfin;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(31);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/220");
-                        this.Description.Add("Meteorological information");
+                    if (FSPEC[30] == '1') {
+                        index = cat21Helper.Compute_Met_Information(message, index);
+                        MET_present = cat21Helper.MET_present;
+                        Wind_Speed = cat21Helper.Wind_Speed;
+                        Wind_Direction = cat21Helper.Wind_Direction;
+                        Temperature = cat21Helper.Temperature;
+                        Turbulence = cat21Helper.Turbulence;
+                        
                     }
-                    if (FSPEC[31] == '1') { 
-                        string sou = message[index].Substring(1, 2);
-                        if (sou == "00") { Source = "Unknown"; }
-                        else if (sou == "01") { Source = "Aircraft Altitude (Holding Altitude)"; }
-                        else if (sou == "10") { Source = "MCP/FCU Selected Altitude"; }
-                        else { Source = "FMS Selected Altitude"; }
-                        Sel_Altitude = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index+1]).Substring(3, 13)) * 25) + " ft";
-                        Selected_Altitude= "SA: "+ Convert.ToString(Sel_Altitude);
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(32);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/146");
-                        this.Description.Add("Selected Altitude");
+                    if (FSPEC[31] == '1') {
+                        index = cat21Helper.Compute_Selected_Altitude(message, index);
+                        SAS = cat21Helper.SAS;
+                        Source = cat21Helper.Source;
+                        Sel_Altitude = cat21Helper.Sel_Altitude;
+                        Selected_Altitude = cat21Helper.Selected_Altitude;
                     }
-                    if (FSPEC[32] == '1') { 
-                        if (message[index].Substring(0, 1) == "0") { MV = "Not active or unknown"; }
-                        else { MV = "Active"; }
-                        if (message[index].Substring(1, 1) == "0") { AH = "Not active or unknown"; }
-                        else { AH = "Active"; }
-                        if (message[index].Substring(2, 1) == "0") { AM = "Not active or unknown"; }
-                        else { AM = "Active"; }
-                        Final_State_Altitude = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index+1]).Substring(3, 13)) * 25) + " ft";
-                        index += 2;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(33);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/148");
-                        this.Description.Add("Final State Selected Altitude");
+                    if (FSPEC[32] == '1') {
+                        index = cat21Helper.Compute_Final_State_Selected_Altitude(message, index);
+                        MV = cat21Helper.MV;
+                        AH = cat21Helper.AH;
+                        AM = cat21Helper.AM;
+                        Final_State_Altitude = cat21Helper.Final_State_Altitude;
                     }
-                    if (FSPEC[33] == '1') { 
-                        Trajectory_present = 1;
-                        if (message[index].Substring(0, 1) == "1") { subfield1 = true; }
-                        else { subfield1 = false; }
-                        if (message[index].Substring(1, 1) == "1") { subfield2 = true; }
-                        else { subfield2 = false; }
-                        if (subfield1 == true)
-                        {
-                            index++;
-                            if (message[index].Substring(0, 1) == "0") { NAV = "Trajectory Intent Data is available for this aircraft"; }
-                            else { NAV = "Trajectory Intent Data is not available for this aircraft "; }
-                            if (message[index].Substring(1, 1) == "0") { NVB = "Trajectory Intent Data is valid"; }
-                            else { NVB = "Trajectory Intent Data is not valid"; }
-                        }
-                        if (subfield2 == true)
-                        {
-                            index++;
-                            REP = Convert.ToInt32(message[index], 2);
-                            TCA = new string[REP];
-                            NC = new string[REP];
-                            TCP = new int[REP];
-                            Altitude = new string[REP];
-                            Latitude = new string[REP];
-                            Longitude = new string[REP];
-                            Point_Type = new string[REP];
-                            TD = new string[REP];
-                            TRA = new string[REP];
-                            TOA = new string[REP];
-                            TOV = new string[REP];
-                            TTR = new string[REP];
-                            index++;
-                            for (int i = 0; i < REP; i++)
-                            {
-                                if (message[index].Substring(0, 1) == "0") { TCA[i] = "TCP number available"; }
-                                else { TCA[i] = "TCP number not available"; }
-                                if (message[index].Substring(1, 1) == "0") { NC[i] = "TCP compliance"; }
-                                else { NC[i] = "TCP non-compliance"; }
-                                TCP[i] = Convert.ToInt32(message[index].Substring(2, 6));
-                                index++;
-                                Altitude[i] = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * 10) + " ft";
-                                index += 2;
-                                Latitude[i] = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * (180 / (Math.Pow(2, 23)))) + " deg";
-                                index +=2;
-                                Longitude[i] = Convert.ToString(decode.TwoComplement2Decimal(string.Concat(message[index], message[index + 1])) * (180 / (Math.Pow(2, 23)))) + " deg";
-                                index += 2;
-                                int pt = Convert.ToInt32(message[index].Substring(0, 4), 2);
-                                if (pt == 0) { Point_Type[i] = "Unknown"; }
-                                else if (pt == 1) { Point_Type[i] = "Fly by waypoint (LT) "; }
-                                else if (pt == 2) { Point_Type[i] = "Fly over waypoint (LT)"; }
-                                else if (pt == 3) { Point_Type[i] = "Hold pattern (LT)"; }
-                                else if (pt == 4) { Point_Type[i] = "Procedure hold (LT)"; }
-                                else if (pt == 5) { Point_Type[i] = "Procedure turn (LT)"; }
-                                else if (pt == 6) { Point_Type[i] = "RF leg (LT)"; }
-                                else if (pt == 7) { Point_Type[i] = "Top of climb (VT)"; }
-                                else if (pt == 8) { Point_Type[i] = "Top of descent (VT)"; }
-                                else if (pt == 9) { Point_Type[i] = "Start of level (VT)"; }
-                                else if (pt == 10) { Point_Type[i] = "Cross-over altitude (VT)"; }
-                                else { Point_Type[i] = "Transition altitude (VT)"; }
-                                string td = message[index].Substring(4, 2);
-                                if (td == "00") { TD[i] = "N/A"; }
-                                else if (td == "01") { TD[i] = "Turn right"; }
-                                else if (td == "10") { TD[i] = "Turn left"; }
-                                else { TD[i] = "No turn"; }
-                                if (message[index].Substring(6, 1) == "0") { TRA[i] = "TTR not available"; }
-                                else { TRA[i] = "TTR available"; }
-                                if (message[index].Substring(7, 1) == "0") { TOA[i] = "TOV available"; }
-                                else { TOA[i] = "TOV not available"; }
-                                index++;
-                                TOV[i] = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1], message[index + 2]), 2)) + " sec";
-                                index += 3;
-                                TTR[i] = Convert.ToString(Convert.ToInt32(string.Concat(message[index], message[index + 1]), 2) * 0.01) + " Nm";
-                                index += 2;
-                            }
-                        }
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(34);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/110");
-                        this.Description.Add("Trajectory Intent");
+                    if (FSPEC[33] == '1') {
+                        index = cat21Helper.Compute_Trajectory_Intent(message, index);
+                        Trajectory_present = cat21Helper.Trajectory_present;
+                        subfield1 = cat21Helper.subfield1;
+                        subfield2 = cat21Helper.subfield2;
+                        NAV = cat21Helper.NAV;
+                        NVB = cat21Helper.NVB;
+                        REP = cat21Helper.REP;
+                        TCA = cat21Helper.TCA;
+                        NC = cat21Helper.NC;
+                        TCP = cat21Helper.TCP;
+                        Altitude = cat21Helper.Altitude;
+
+                        Latitude = cat21Helper.Latitude;
+                        Longitude = cat21Helper.Longitude;
+                        Point_Type = cat21Helper.Point_Type;
+                        TD = cat21Helper.TD;
+                        TRA = cat21Helper.TRA;
+                        TOA = cat21Helper.TOA;
+                        TOV = cat21Helper.TOV;
+                        TTR = cat21Helper.TTR;
                     }
-                    if (FSPEC[34] == '1') { 
-                        RP = Convert.ToString(Convert.ToDouble(Convert.ToInt32(message[index], 2)) * 0.5) + " sec";
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(35);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/016");
-                        this.Description.Add("Service Management");
+                    if (FSPEC[34] == '1') {
+                        index = cat21Helper.Compute_Service_Managment(message, index);
+                        RP = cat21Helper.RP;
+
                     }
 
                 }
                 if (FSPEC.Count() > 36)
                 {
-                    if (FSPEC[35] == '1') { 
-                        char[] OctetoChar = message[index].ToCharArray(0, 8);
-                        if (OctetoChar[0] == '1') { RA = "TCAS RA active"; }
-                        else { RA = "TCAS II or ACAS RA not active"; }
-                        if (Convert.ToInt32(string.Concat(OctetoChar[1], OctetoChar[2]), 2) == 1) { TC = "No capability for trajectory Change Reports"; }
-                        else if (Convert.ToInt32(string.Concat(OctetoChar[1], OctetoChar[2]), 2) == 2) { TC = "Support fot TC+0 reports only"; }
-                        else if (Convert.ToInt32(string.Concat(OctetoChar[1], OctetoChar[2]), 2) == 3) { TC = "Support for multiple TC reports"; }
-                        else { TC = "Reserved"; }
-                        if (OctetoChar[3] == '0') { TS = "No capability to support Target State Reports"; }
-                        else { TS = "Capable of supporting target State Reports"; }
-                        if (OctetoChar[4] == '0') { ARV = "No capability to generate ARV-Reports"; }
-                        else { ARV = "Capable of generate ARV-Reports"; };
-                        if (OctetoChar[5] == '0') { CDTIA = "CDTI not operational"; }
-                        else { CDTIA = "CDTI operational"; }
-                        if (OctetoChar[6] == '0') { Not_TCAS = "TCAS operational"; }
-                        else { Not_TCAS = "TCAS not operational"; }
-                        if (OctetoChar[7] == '0') { SA = "Antenna Diversity"; }
-                        else { SA = "Single Antenna only"; }
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(36);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/008");
-                        this.Description.Add("Aircraft Operational Status");
+                    if (FSPEC[35] == '1') {
+                        index = cat21Helper.Compute_Aircraft_Operational_Status(message, index);
+                        RA = cat21Helper.RA;
+                        TC = cat21Helper.TC;
+                        TS = cat21Helper.TS;
+                        ARV = cat21Helper.ARV;
+                        CDTIA = cat21Helper.CDTIA;
+                        Not_TCAS = cat21Helper.Not_TCAS;
+                        SA = cat21Helper.SA;
+                        
                     }
-                    if (FSPEC[36] == '1') { 
-                        if (message[index].Substring(2, 1) == "0") { POA = "Position transmitted is not ADS-B Position reference point"; }
-                        else { POA = "Position transmitted is the ADS-B Position reference point"; }
-                        if (message[index].Substring(3, 1) == "0") { CDTIS = "Cockpit Display of Traffic Information not operational"; }
-                        else { CDTIS = "Cockpit Display of Traffic Information operational"; }
-                        if (message[index].Substring(4, 1) == "0") { B2_low= "Class B2 transmit power ≥ 70 Watts"; }
-                        else { B2_low= "Class B2 transmit power < 70 Watts"; }
-                        if (message[index].Substring(5, 1) == "0") { RAS = "Aircraft not receiving ATC-services"; }
-                        else { RAS = "Aircraft receiving ATC services"; }
-                        if (message[index].Substring(6, 1) == "0") { IDENT = "IDENT switch not active"; }
-                        else { IDENT = "IDENT switch active"; }
-                        if (message[index].Substring(7, 1) == "1") 
-                        {
-                            index++;
-                            int LaW =Convert.ToInt32(message[index].Substring(4,4),2) ; 
-                            if ( LaW == 0) { LengthandWidth  = "Lenght < 15  and Width < 11.5";  }
-                            if (LaW == 1) { LengthandWidth = "Lenght < 15  and Width < 23"; }
-                            if (LaW == 2) { LengthandWidth = "Lenght < 25  and Width < 28.5"; }
-                            if (LaW == 3) { LengthandWidth = "Lenght < 25  and Width < 34"; }
-                            if (LaW == 4) { LengthandWidth = "Lenght < 35  and Width < 33"; }
-                            if (LaW == 5) { LengthandWidth = "Lenght < 35  and Width < 38"; }
-                            if (LaW == 6) { LengthandWidth = "Lenght < 45  and Width < 39.5"; }
-                            if (LaW == 7) { LengthandWidth = "Lenght < 45  and Width < 45"; }
-                            if (LaW == 8) { LengthandWidth = "Lenght < 55  and Width < 45"; }
-                            if (LaW == 9) { LengthandWidth = "Lenght < 55  and Width < 52"; }
-                            if (LaW == 10) { LengthandWidth = "Lenght < 65  and Width < 59.5"; }
-                            if (LaW == 11) { LengthandWidth = "Lenght < 65  and Width < 67"; }
-                            if (LaW == 12) { LengthandWidth = "Lenght < 75  and Width < 72.5"; }
-                            if (LaW == 13) { LengthandWidth = "Lenght < 75  and Width < 80"; }
-                            if (LaW == 14) { LengthandWidth = "Lenght < 85  and Width < 80"; }
-                            if (LaW == 15) { LengthandWidth = "Lenght > 85  and Width > 80"; }
-                        }
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(37);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/271");
-                        this.Description.Add("Surface Capabilities and Characteristics");
-                    }
-                    if (FSPEC[37] == '1') { 
-                        Message_Amplitude = Convert.ToString(decode.TwoComplement2Decimal(message[index])) + " dBm"; 
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(38);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/132");
-                        this.Description.Add("Message Amplitude");
-                    }
-                    if (FSPEC[38] == '1') { 
-                        int modeS_rep = Convert.ToInt32(message[index], 2);
-                        if (modeS_rep < 0) {MB_Data = new string[modeS_rep];BDS1 = new string[modeS_rep]; BDS2 = new string[modeS_rep]; }
-                        index++;
-                        for (int i=0;i<modeS_rep;i++)
-                        {
-                            MB_Data[i] = String.Concat(message[index], message[index + 1], message[index + 2], message[index + 3], message[index + 4], message[index + 5], message[index + 6]);
-                            BDS1[1] = message[index + 7].Substring(0, 4);
-                            BDS2[1] = message[index + 7].Substring(4, 4);
-                            index +=8;
-                        }
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(39);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/250");
-                        this.Description.Add("Mode S MB Data");
-                    }
-                    if (FSPEC[39] == '1') { 
-                        string messg = string.Concat(message[index], message[index + 1], message[index + 2], message[index + 3], message[index + 4], message[index + 5], message[index + 6]);
-                        TYP = messg.Substring(0,5);
-                        STYP = messg.Substring(5, 3);
-                        ARA = messg.Substring(8, 14);
-                        RAC = messg.Substring(22, 4);
-                        RAT = messg.Substring(26, 1);
-                        MTE = messg.Substring(27, 1);
-                        TTI = messg.Substring(28, 2);
-                        TID = messg.Substring(30, 26);
-                        index +=7;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(40);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/260");
-                        this.Description.Add("ACAS Resolution Advisory Report");
-                    }
-                    if (FSPEC[40] == '1') { 
-                        Receiver_ID = Convert.ToString(Convert.ToInt32(message[index],2));
-                        index++;
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(41);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/400");
-                        this.Description.Add("Receiver ID");
-                    }
-                    if (FSPEC[41] == '1') { 
-                        Data_Ages_present = 1;
-                        int indexin = index;
-                        if (message[index].Substring(7, 1) == "1")
-                        {
-                            index++;
-                            if (message[index].Substring(7, 1) == "1")
-                            {
-                                index++;
-                                if (message[index].Substring(7, 1) == "1")
-                                {
-                                    index++;
-                                }
-                            }
-                        }
-                        index++;
-                        if (message[indexin].Substring(0, 1) == "1") { AOS = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(1, 1) == "1") { TRD = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(2, 1) == "1") { M3A = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(3, 1) == "1") { QI = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(4, 1) == "1") { TI = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(5, 1) == "1") { MAM = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(6, 1) == "1") { GH = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        if (message[indexin].Substring(7, 1) == "1")
-                        {
-                            if (message[indexin + 1].Substring(0, 1) == "1") { FL = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(1, 1) == "1") { ISA = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(2, 1) == "1") { FSA = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(3, 1) == "1") { AS = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(4, 1) == "1") { TAS = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(5, 1) == "1") { MH = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 1].Substring(6, 1) == "1") { BVR = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        }
-                        if (message[indexin+1].Substring(7, 1) == "1")
-                        {
-                            if (message[indexin + 2].Substring(0, 1) == "1") { GVR = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(1, 1) == "1") { GV = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(2, 1) == "1") { TAR = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(3, 1) == "1") { TI_DataAge = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(4, 1) == "1") { TS_DataAge = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(5, 1) == "1") { MET = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 2].Substring(6, 1) == "1") { ROA = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        }
-                        if (message[indexin+2].Substring(7, 1) == "1")
-                        {
-                            if (message[indexin + 3].Substring(0, 1) == "1") { ARA_DataAge = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                            if (message[indexin + 3].Substring(1, 1) == "1") { SCC = Convert.ToString(Convert.ToInt32(message[index], 2) * 0.1) + " s"; index++; }
-                        }
+                    if (FSPEC[36] == '1') {
+                        index = cat21Helper.Compute_Surface_Capabiliteies_and_Characteristics(message, index);
+                        POA = cat21Helper.POA;
+                        CDTIS = cat21Helper.CDTIS;
+                        B2_low = cat21Helper.B2_low;
+                        RAS = cat21Helper.RAS;
+                        IDENT = cat21Helper.IDENT;
+                        LengthandWidth = cat21Helper.LengthandWidth;
 
-                        // Cat21 Details
-                        this.numItems++;
-                        this.FRN.Add(42);
-                        this.offset.Add(offset.Last() + index);
-                        this.FieldType.Add("I021/295");
-                        this.Description.Add("Data Aget");
+                    }
+                    if (FSPEC[37] == '1') {
+                        index = cat21Helper.Compute_Message_Amplitude(message, index);
+                        Message_Amplitude = cat21Helper.Message_Amplitude;
+
+                    }
+                    if (FSPEC[38] == '1') {
+                        index = cat21Helper.Compute_Mode_S_MB_DATA(message, index);
+                        MB_Data = cat21Helper.MB_Data;
+                        BDS1 = cat21Helper.BDS1;
+                        BDS2 = cat21Helper.BDS2;
+                        modeS_rep = cat21Helper.modeS_rep;
+                        
+                    }
+                    if (FSPEC[39] == '1') {
+                        index = cat21Helper.Compute_ACAS_Resolution_Advisory_Report(message, index);
+                        TYP = cat21Helper.TYP;
+                        STYP = cat21Helper.STYP;
+                        ARA = cat21Helper.ARA;
+                        RAC = cat21Helper.RAC;
+                        RAT = cat21Helper.RAT;
+                        MTE = cat21Helper.MTE;
+                        TTI = cat21Helper.TTI;
+                        TID = cat21Helper.TID;
+
+                    }
+                    if (FSPEC[40] == '1') {
+                        index = cat21Helper.Compute_Receiver_ID(message, index);
+                        Receiver_ID = cat21Helper.Receiver_ID;
+                    }
+                    if (FSPEC[41] == '1') {
+                        index = cat21Helper.Compute_Data_Age(message, index);
+                        Data_Ages_present = cat21Helper.Data_Ages_present;
+                        AOS = cat21Helper.AOS;
+                        TRD = cat21Helper.TRD;
+                        M3A = cat21Helper.M3A;
+                        QI = cat21Helper.QI;
+                        TI = cat21Helper.TI;
+                        MAM = cat21Helper.MAM;
+                        GH = cat21Helper.GH;
+                        FL = cat21Helper.FL;
+                        ISA = cat21Helper.ISA;
+                        FSA = cat21Helper.FSA;
+                        AS = cat21Helper.AS;
+                        TAS = cat21Helper.TAS;
+                        MH = cat21Helper.MH;
+                        BVR = cat21Helper.BVR;
+                        GVR = cat21Helper.GVR;
+                        GV = cat21Helper.GV;
+                        TAR = cat21Helper.TAR;
+                        TI_DataAge = cat21Helper.TI_DataAge;
+                        TS_DataAge = cat21Helper.TS_DataAge;
+                        MET = cat21Helper.MET;
+                        ROA = cat21Helper.ROA;
+                        ARA_DataAge = cat21Helper.ARA_DataAge;
+                        SCC = cat21Helper.SCC;
                     }
                 }
             }
@@ -1065,52 +587,163 @@ namespace DecerixUPC.Libraries
             char[] OctetoChar = message[index].ToCharArray(0, 8);
             int atp = Convert.ToInt32(string.Concat(OctetoChar[0], OctetoChar[1], OctetoChar[2]), 2);
             int arc = Convert.ToInt32(string.Concat(OctetoChar[3], OctetoChar[4]), 2);
-            if (atp == 0) { ATP = "24-Bit ICAO address"; }
-            else if (atp == 1) { ATP = "Duplicate address"; }
-            else if (atp == 2) { ATP = "Surface vehicle address"; }
-            else if (atp == 3) { ATP = "Anonymous address"; }
-            else { ATP = "Reserved for future use"; }
-            if (arc == 0) { ARC = "25 ft "; }
-            else if (arc == 1) { ARC = "100 ft"; }
-            else if (arc == 2) { ARC = "Unknown"; }
-            else { ARC = "Invalid"; }
-            if (OctetoChar[5] == '0') { RC = "Default"; }
-            else { RC = "Range Check passed, CPR Validation pending"; }
-            if (OctetoChar[6] == '0') { RAB = "Report from target transponder"; }
-            else { RAB = "Report from field monitor (fixed transponder)"; }
+            if (atp == 0) {
+                ATP = "24-Bit ICAO address";
+                
+            }
+            else if (atp == 1) {
+                ATP = "Duplicate address";
+                
+            }
+            else if (atp == 2) {
+                ATP = "Surface vehicle address";
+                
+            }
+            else if (atp == 3) {
+                ATP = "Anonymous address";
+                
+            }
+            else {
+                ATP = "Reserved for future use";
+                
+            }
+            if (arc == 0) {
+                ARC = "25 ft ";
+                
+            }
+            else if (arc == 1) {
+                ARC = "100 ft";
+                
+            }
+            else if (arc == 2) {
+                ARC = "Unknown";
+                
+            }
+            else {
+                ARC = "Invalid";
+                
+            }
+            if (OctetoChar[5] == '0') {
+                RC = "Default";
+                
+            }
+            else {
+                RC = "Range Check passed, CPR Validation pending";
+                
+            }
+            if (OctetoChar[6] == '0') {
+                RAB = "Report from target transponder";
+                
+            }
+            else {
+                RAB = "Report from field monitor (fixed transponder)";
+                
+            }
             index++;
             if (OctetoChar[7] == '1')
             {
                 OctetoChar = message[index].ToCharArray(0, 8);
-                if (OctetoChar[0] == '0') { DCR = "No differential correction (ADS-B)"; }
-                else { DCR = "Differential correction (ADS-B)"; }
-                if (OctetoChar[1] == '0') { GBS = "Ground Bit not set"; }
-                else { GBS = "Ground Bit set"; }
-                if (OctetoChar[2] == '0') { SIM = "Actual target report"; }
-                else { SIM = "Simulated target report"; }
-                if (OctetoChar[3] == '0') { TST = "Default"; }
-                else { TST = "Test Target"; }
-                if (OctetoChar[4] == '0') { SAA = "Equipment capable to provide Selected Altitude"; }
-                else { SAA = "Equipment not capable to provide Selected Altitude"; }
+                if (OctetoChar[0] == '0') {
+                    DCR = "No differential correction (ADS-B)";
+                    
+                }
+                else {
+                    DCR = "Differential correction (ADS-B)";
+                    
+                }
+                if (OctetoChar[1] == '0') {
+                    GBS = "Ground Bit not set";
+                    
+                }
+                else {
+                    GBS = "Ground Bit set";
+                    
+                }
+                if (OctetoChar[2] == '0') {
+                    SIM = "Actual target report";
+                    
+                }
+                else {
+                    SIM = "Simulated target report";
+                    
+                }
+                if (OctetoChar[3] == '0') {
+                    TST = "Default";
+                    
+                }
+                else {
+                    TST = "Test Target";
+                    
+                }
+                if (OctetoChar[4] == '0') {
+                    SAA = "Equipment capable to provide Selected Altitude";
+                    
+                }
+                else {
+                    SAA = "Equipment not capable to provide Selected Altitude";
+                    
+                }
                 int cl = Convert.ToInt32(string.Concat(OctetoChar[5], OctetoChar[6]), 2);
-                if (cl == 0) { CL = "Report valid"; }
-                else if (cl == 1) { CL = "Report suspect"; }
-                else if (cl == 2) { CL = "No information"; }
-                else { CL = "Reserved for future use"; }
+                if (cl == 0) {
+                    CL = "Report valid";
+                    
+                }
+                else if (cl == 1) {
+                    CL = "Report suspect";
+                    
+                }
+                else if (cl == 2) {
+                    CL = "No information";
+                    
+                }
+                else {
+                    CL = "Reserved for future use";
+                    
+                }
                 index++;
                 if (OctetoChar[7] == '1')
                 {
                     OctetoChar = message[index].ToCharArray(0, 8);
-                    if (OctetoChar[2] == '0') { IPC = "Default"; }
-                    else { IPC = "Independent Position Check failed"; }
-                    if (OctetoChar[3] == '0') { NOGO = "NOGO-bit not set"; }
-                    else { NOGO = "NOGO-bit set"; }
-                    if (OctetoChar[4] == '0') { CPR = "CPR Validation correct "; }
-                    else { CPR = "CPR Validation failed"; }
-                    if (OctetoChar[5] == '0') { LDPJ = "LDPJ not detected"; }
-                    else { LDPJ = "LDPJ detected"; }
-                    if (OctetoChar[6] == '0') { RCF = "Default"; }
-                    else { RCF = "Range Check failed "; }
+                    if (OctetoChar[2] == '0') {
+                        IPC = "Default";
+                        
+                    }
+                    else {
+                        IPC = "Independent indexition Check failed";
+                        
+                    }
+                    if (OctetoChar[3] == '0') {
+                        NOGO = "NOGO-bit not set";
+                        
+                    }
+                    else {
+                        NOGO = "NOGO-bit set";
+                        
+                    }
+                    if (OctetoChar[4] == '0') {
+                        CPR = "CPR Validation correct ";
+                        
+                    }
+                    else {
+                        CPR = "CPR Validation failed";
+                        
+                    }
+                    if (OctetoChar[5] == '0') {
+                        LDPJ = "LDPJ not detected";
+                        
+                    }
+                    else {
+                        LDPJ = "LDPJ detected";
+                        
+                    }
+                    if (OctetoChar[6] == '0') {
+                        RCF = "Default";
+                        
+                    }
+                    else {
+                        RCF = "Range Check failed ";
+                        
+                    }
                     index++;
                 }
             }

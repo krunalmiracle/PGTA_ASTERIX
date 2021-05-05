@@ -13,7 +13,7 @@ namespace DecerixUPC.Libraries
  
         List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
-        List<CAT21v21> listCAT21 = new List<CAT21v21>();
+        List<CAT21> listCAT21 = new List<CAT21>();
         
         List<int> datablocks = new List<int>();
         
@@ -22,7 +22,7 @@ namespace DecerixUPC.Libraries
         {
             return listCAT10;
         }
-        public List<CAT21v21> getListCAT21()
+        public List<CAT21> getListCAT21()
         {
             return listCAT21;
         }
@@ -36,67 +36,89 @@ namespace DecerixUPC.Libraries
         {
             return datablocks;
         }
-
-        public void read(string path)
+        private static string ToHex(byte[] bytes)
         {
+            char[] c = new char[bytes.Length * 2];
+
+            byte b;
+
+            for (int bx = 0, cx = 0; bx < bytes.Length; ++bx, ++cx)
+            {
+                b = ((byte)(bytes[bx] >> 4));
+                c[cx] = (char)(b > 9 ? b + 0x37 + 0x20 : b + 0x30);
+
+                b = ((byte)(bytes[bx] & 0x0F));
+                c[++cx] = (char)(b > 9 ? b + 0x37 + 0x20 : b + 0x30);
+            }
+
+            return new string(c);
+        }
+        public void read(string path)
+        {   
+            // Load file to RAM
             byte[] fileBytes = File.ReadAllBytes(path);
-            List<byte[]> listbyte = new List<byte[]>();
-            int i = 0;
-            int count = fileBytes[2];
-
-            while (i < fileBytes.Length)
+            // New Version Improvement by 0.673ms@4Ghz and 150MB ram usage only
+            // Go over all of the packets and store them in a separate list of lists
+            // First Octet Category
+            List<Byte> fileBytesList = fileBytes.ToList();
+            // 2nd*256 + 3rd Octet = Length in Bytes
+            int messageCategory = fileBytes[0];
+            int messageLength; // 2nd*256 + 3rd Octet
+            List<List<Byte>> messages = new List<List<Byte>>();
+            List<String[]> messagesHex = new List<String[]>();
+            List<String[]> messagesBinary = new List<String[]>();
+            List<int> messagesLengths = new List<int>();
+            // Store messages from the fileBytes into packet size Blocks using messageLength
+            int currPointer = 0;
+            int lengthFile = fileBytesList.Count;
+            List<Byte> message;
+            List<string> messageHex = new List<string>();
+            while ((currPointer + 1) < lengthFile)
             {
-                byte[] array = new byte[count];
-                for (int j = 0; j < array.Length; j++)
+                messageLength = (fileBytes[currPointer + 1] * 256) + fileBytes[currPointer + 2];
+                message = fileBytesList.GetRange(currPointer, messageLength);
+
+                // Convert Message Byte to Messages of Hexadecimal
+                Byte[] arr = message.ToArray();
+                foreach (byte b in arr)
                 {
-                    array[j] = fileBytes[i];
-                    i++;
+                    messageHex.Add(b.ToString("X"));
                 }
-                listbyte.Add(array);
-                if (i + 2 < fileBytes.Length)
-                {
-                    count = fileBytes[i + 2];
-                }
+                // Store the Message and Message in Hex
+                messages.Add(message); // (currentMessageByte)-LastByteIncluded
+                messagesHex.Add(messageHex.ToArray());
+                messageHex.Clear();
+                messagesLengths.Add(messageLength);
+                currPointer += messageLength;
             }
 
-            
-            for (int x = 0; x < listbyte.Count; x++)
-            {
-                byte[] buffer = listbyte[x];
-                string[] arrayhex = new string[buffer.Length];
-                for (int y = 0; y < buffer.Length; y++)
-                {
-                    // Byte Buffer to String Hexadecimal
-                    arrayhex[y] = buffer[y].ToString("X");
-                   // file = file + arrayhex[y].PadLeft(2, '0');
-                }
-                // Save the packet in hex format
-                listhex.Add(arrayhex);
-            }
-
-            // Loop through hex packet list
-            int offset = 3;
+            // Messages separated --> Now we have to convert them according to CAT 10 or CAT 21
             HelpDecode decode = new HelpDecode();
-            for (int q = 0; q < listhex.Count; q++)
+            // To improve performance, just 1 object generated. For entire list
+            CAT10Helper cat10Helper = new CAT10Helper(decode);
+            CAT21Helper cat21Helper = new CAT21Helper(decode);
+            //List<CAT10> arrCat10 = new List<CAT10>[listhex.Count];
+            List<CAT10> arrCat10 = new List<CAT10>();
+            List<CAT21> arrCat21 = new List<CAT21>();
+            /*CAT10 newcat10 = new CAT10(decode, cat10Helper); */
+            string[] arraystring;
+            /*CAT21v21 newcat21 = new CAT21v21(decode, cat10Helper);*/
+
+            for (int q = 0; q < messagesHex.Count; q++)
             {
-                string[] arraystring = listhex[q];
-                int CAT = int.Parse(arraystring[0], System.Globalization.NumberStyles.HexNumber);
+                arraystring = messagesHex[q];
+                /*int CAT = int.Parse(arraystring[0], System.Globalization.NumberStyles.HexNumber);*/
 
-                if (CAT == 10)
+                if (arraystring[0] == "A")
                 {
-                    CAT10 newcat10 = new CAT10(arraystring, decode, q, offset);
-                    listCAT10.Add(newcat10);
-                    datablocks.Add(10);
+                    arrCat10.Add(new CAT10(decode, cat10Helper, arraystring,q));
                 }
-                else if (CAT == 21)
+                else if (arraystring[0] == "15")
                 {
-                    CAT21v21 newcat21 = new CAT21v21(arraystring, decode, q, offset);
-                    listCAT21.Add(newcat21);
-                    datablocks.Add(21);
+                    arrCat21.Add(new CAT21(decode, cat21Helper, arraystring, q));
                 }
-                offset += arraystring.Length;
             }
-
-        } 
+            string a = ";";
+        }
     }
 }

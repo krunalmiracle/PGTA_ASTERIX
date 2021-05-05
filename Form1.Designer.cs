@@ -29,122 +29,133 @@ namespace DecerixUPC
         /// </summary>
         private void InitializeComponent()
         {
+            this.mapView = new System.Windows.Forms.Button();
+            this.about = new System.Windows.Forms.Button();
+            this.dataView = new System.Windows.Forms.Button();
             this.loadFile = new System.Windows.Forms.Button();
-            this.DataBlock = new System.Windows.Forms.DataGridView();
-            this.DataRecord = new System.Windows.Forms.DataGridView();
-            this.DataItems = new System.Windows.Forms.DataGridView();
-            this.AsterixFileHex = new System.Windows.Forms.TextBox();
-            this.FieldType = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.DataBlock)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataRecord)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataItems)).BeginInit();
+            this.cat21DataView = new System.Windows.Forms.Button();
+            this.allDataView = new System.Windows.Forms.Button();
+            this.cat10DataView = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.mapView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.mapView.Location = new System.Drawing.Point(12, 309);
+            this.mapView.Name = "mapView";
+            this.mapView.Size = new System.Drawing.Size(168, 107);
+            this.mapView.TabIndex = 2;
+            this.mapView.Text = "Map View";
+            this.mapView.UseVisualStyleBackColor = false;
+            this.mapView.Click += new System.EventHandler(this.mapView_Click);
+            // 
+            // about
+            // 
+            this.about.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.about.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.about.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.about.Location = new System.Drawing.Point(12, 422);
+            this.about.Name = "about";
+            this.about.Size = new System.Drawing.Size(168, 48);
+            this.about.TabIndex = 3;
+            this.about.Text = "About";
+            this.about.UseVisualStyleBackColor = false;
+            this.about.Click += new System.EventHandler(this.about_Click);
+            // 
+            // dataView
+            // 
+            this.dataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.dataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataView.Location = new System.Drawing.Point(12, 125);
+            this.dataView.Name = "dataView";
+            this.dataView.Size = new System.Drawing.Size(168, 52);
+            this.dataView.TabIndex = 1;
+            this.dataView.Text = "Data View";
+            this.dataView.UseVisualStyleBackColor = false;
+            this.dataView.Click += new System.EventHandler(this.dataView_Click);
             // 
             // loadFile
             // 
             this.loadFile.BackColor = System.Drawing.Color.LightSeaGreen;
             this.loadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFile.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.loadFile.Location = new System.Drawing.Point(29, 61);
-            this.loadFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.loadFile.Location = new System.Drawing.Point(12, 12);
             this.loadFile.Name = "loadFile";
-            this.loadFile.Size = new System.Drawing.Size(218, 88);
+            this.loadFile.Size = new System.Drawing.Size(168, 107);
             this.loadFile.TabIndex = 0;
             this.loadFile.Text = " Load File";
             this.loadFile.UseVisualStyleBackColor = false;
             this.loadFile.Click += new System.EventHandler(this.loadFile_Click);
             // 
-            // DataBlock
+            // cat21DataView
             // 
-            this.DataBlock.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DataBlock.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataBlock.GridColor = System.Drawing.Color.LightSeaGreen;
-            this.DataBlock.Location = new System.Drawing.Point(29, 203);
-            this.DataBlock.Margin = new System.Windows.Forms.Padding(10);
-            this.DataBlock.Name = "DataBlock";
-            this.DataBlock.RowHeadersWidth = 62;
-            this.DataBlock.RowTemplate.Height = 28;
-            this.DataBlock.Size = new System.Drawing.Size(538, 183);
-            this.DataBlock.TabIndex = 2;
-            this.DataBlock.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataBlock_CellContentClick);
+            this.cat21DataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.cat21DataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cat21DataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.cat21DataView.Location = new System.Drawing.Point(30, 224);
+            this.cat21DataView.Name = "cat21DataView";
+            this.cat21DataView.Size = new System.Drawing.Size(150, 37);
+            this.cat21DataView.TabIndex = 4;
+            this.cat21DataView.Text = "cat21DataView";
+            this.cat21DataView.UseVisualStyleBackColor = false;
             // 
-            // DataRecord
+            // allDataView
             // 
-            this.DataRecord.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DataRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataRecord.GridColor = System.Drawing.Color.LightSeaGreen;
-            this.DataRecord.Location = new System.Drawing.Point(586, 203);
-            this.DataRecord.Name = "DataRecord";
-            this.DataRecord.RowHeadersWidth = 62;
-            this.DataRecord.RowTemplate.Height = 28;
-            this.DataRecord.Size = new System.Drawing.Size(737, 183);
-            this.DataRecord.TabIndex = 3;
-            this.DataRecord.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataRecord_CellContentClick);
+            this.allDataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.allDataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allDataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.allDataView.Location = new System.Drawing.Point(30, 267);
+            this.allDataView.Name = "allDataView";
+            this.allDataView.Size = new System.Drawing.Size(150, 36);
+            this.allDataView.TabIndex = 5;
+            this.allDataView.Text = "All";
+            this.allDataView.UseVisualStyleBackColor = false;
             // 
-            // DataItems
+            // cat10DataView
             // 
-            this.DataItems.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DataItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataItems.GridColor = System.Drawing.Color.LightSeaGreen;
-            this.DataItems.Location = new System.Drawing.Point(29, 407);
-            this.DataItems.Name = "DataItems";
-            this.DataItems.RowHeadersWidth = 62;
-            this.DataItems.RowTemplate.Height = 28;
-            this.DataItems.Size = new System.Drawing.Size(782, 342);
-            this.DataItems.TabIndex = 4;
-            this.DataItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataItems_CellContentClick);
-            // 
-            // AsterixFileHex
-            // 
-            this.AsterixFileHex.ForeColor = System.Drawing.Color.Black;
-            this.AsterixFileHex.Location = new System.Drawing.Point(296, 42);
-            this.AsterixFileHex.Multiline = true;
-            this.AsterixFileHex.Name = "AsterixFileHex";
-            this.AsterixFileHex.Size = new System.Drawing.Size(1027, 130);
-            this.AsterixFileHex.TabIndex = 6;
-            // 
-            // FieldType
-            // 
-            this.FieldType.Location = new System.Drawing.Point(849, 407);
-            this.FieldType.Multiline = true;
-            this.FieldType.Name = "FieldType";
-            this.FieldType.Size = new System.Drawing.Size(474, 342);
-            this.FieldType.TabIndex = 7;
+            this.cat10DataView.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.cat10DataView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cat10DataView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.cat10DataView.Location = new System.Drawing.Point(30, 183);
+            this.cat10DataView.Name = "cat10DataView";
+            this.cat10DataView.Size = new System.Drawing.Size(150, 37);
+            this.cat10DataView.TabIndex = 6;
+            this.cat10DataView.Text = "cat10DataView";
+            this.cat10DataView.UseVisualStyleBackColor = false;
             // 
             // DecodeFile
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(1367, 770);
-            this.Controls.Add(this.FieldType);
-            this.Controls.Add(this.AsterixFileHex);
-            this.Controls.Add(this.DataItems);
-            this.Controls.Add(this.DataRecord);
-            this.Controls.Add(this.DataBlock);
+            this.ClientSize = new System.Drawing.Size(927, 482);
+            this.Controls.Add(this.cat10DataView);
+            this.Controls.Add(this.allDataView);
+            this.Controls.Add(this.cat21DataView);
+            this.Controls.Add(this.about);
+            this.Controls.Add(this.mapView);
             this.Controls.Add(this.loadFile);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Controls.Add(this.dataView);
             this.Name = "DecodeFile";
             this.Text = "UPC DECERIX";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.DataBlock)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataRecord)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataItems)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.Button mapView;
+        private System.Windows.Forms.Button about;
+        private System.Windows.Forms.Button dataView;
         private System.Windows.Forms.Button loadFile;
-        private System.Windows.Forms.DataGridView DataBlock;
-        private System.Windows.Forms.DataGridView DataRecord;
-        private System.Windows.Forms.DataGridView DataItems;
-        private System.Windows.Forms.TextBox AsterixFileHex;
-        private System.Windows.Forms.TextBox FieldType;
+        private System.Windows.Forms.Button cat21DataView;
+        private System.Windows.Forms.Button allDataView;
+        private System.Windows.Forms.Button cat10DataView;
     }
 }
 

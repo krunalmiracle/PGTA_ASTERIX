@@ -19,9 +19,9 @@ namespace DecerixUPC.Libraries
             {
                 //Convert octet and addd padding if necessary
                 string newoctet = Convert.ToString(Convert.ToInt32(message[index], 16), 2).PadLeft(8, '0');
-                //Pick the 7 significant FSPEC bits
+                //Pick the 7 significant FSPEC bits -- Leaving last bit
                 FSPEC += newoctet.Substring(0, 7);
-                //Check the extension bit
+                //Check the extension bit -- Last Bit in the octet
                 if (newoctet.Substring(7, 1) == "1")
                     index++;
                 else
@@ -120,7 +120,19 @@ namespace DecerixUPC.Libraries
             }
 
         }
-
+        /// Compute Char from bynary
+        /// </summary>
+        /// <param name="Char"></param>
+        /// <returns>Computed Char</returns>
+        public string Compute_Char(string Char)
+        {
+            int code = Convert.ToInt32(Char, 2);
+            List<string> codelist = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            if (code == 0)
+                return "";
+            else
+                return codelist[code - 1];
+        }
         public int Decimal2Octal(int number)
         {
             int octal = 0, i = 1;
