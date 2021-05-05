@@ -49,8 +49,15 @@ namespace DecerixUPC
                 // File Read --> Decode it to Categories and create a list of 
 
                 //  Cat 10 for SMR y MLAT & Cat 21 para ADS-B
-                tableCAT10 = file.tablaCAT10;
-                tableCAT21 = file.tablaCAT21;
+                if (file.tablaCAT10.Columns.Count==27 && file.tablaCAT10.Rows.Count > 1)
+                {
+                    tableCAT10 = file.tablaCAT10;
+                }
+                if (file.tablaCAT21.Columns.Count == 43 && file.tablaCAT21.Rows.Count > 1)
+                {
+                    tableCAT21 = file.tablaCAT21;
+                }
+                
                 cat10 = file.getListCAT10();
                 cat21 = file.getListCAT21();
                 // After the list creation --> Indicate the UI to choose to show different Categories
