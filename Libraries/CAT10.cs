@@ -19,6 +19,7 @@ namespace DecerixUPC.Libraries
         //DATA SOURCE IDENTIFIER
         public string SAC;
         public string SIC;
+        public string TAR;
         public int airportCode;
         //MESSAGE TYPE
         public string messageType;
@@ -53,7 +54,7 @@ namespace DecerixUPC.Libraries
         //POSITION IN CARTESIAN CO-ORDINATES
         public string X_Component;
         public string Y_Component;
-
+        public string Position_In_Polar;
         //CALCULATED TRACK VELOCITY IN POLAR CO-ORDINATES
         public string GroundSpeed;
         public string TrackAngle;
@@ -143,8 +144,7 @@ namespace DecerixUPC.Libraries
         public string Ax;
         public string Ay;
 
-        // Empty
-        HelpDecode decode; CAT10Helper cat10Helper;
+       
         public CAT10() {
             
         }
@@ -288,18 +288,16 @@ namespace DecerixUPC.Libraries
 
         }
         // Filled
-        public CAT10(HelpDecode decode, CAT10Helper cat10Helper,string[] array, int id)
+        public CAT10(ref HelpDecode decode,ref CAT10Helper cat10Helper,string[] array, int id, string[] messageBinary)
         {   
             try
             {
-                this.decode = decode;
-                this.cat10Helper = cat10Helper;
                 //Decode FSPEC
                 string FSPEC0 = decode.getFSPEC(array);
                 int octetsFSPEC = FSPEC0.Length / 7;
                 int index = 3 + octetsFSPEC;
                 this.FSPEC = FSPEC0.ToCharArray(0, FSPEC0.Length);
-                message = decode.MessageToBinary(array);
+                message = messageBinary;
                 this.Id = id;
                 this.numOctets = array.Length;
 
@@ -312,7 +310,7 @@ namespace DecerixUPC.Libraries
                     this.SAC = cat10Helper.SAC;
                     this.SIC = cat10Helper.SIC;
                     this.airportCode = cat10Helper.airportCode;
-
+                    this.TAR = cat10Helper.TAR;
                 } //
                 if (FSPEC[1] == '1')
                 {
@@ -363,7 +361,7 @@ namespace DecerixUPC.Libraries
                     index = cat10Helper.Compute_Position_in_Cartesian_Coordinates(message, index);
                     this.X_Component = cat10Helper.X_Component;
                     this.Y_Component = cat10Helper.Y_Component;
-                    
+                    this.Position_In_Polar = cat10Helper.Position_In_Polar;
                 }  //
                 if (FSPEC.Count() > 8)
                 {

@@ -226,7 +226,7 @@ namespace DecerixUPC.Libraries
             cat21Helper.cat21Helper = cat21Helper;
         }*/
         // Constructor with message array and decoder class
-        public CAT21(HelpDecode decode, CAT21Helper cat21Helper, string[] hexMessageArray, int id)
+        public CAT21(ref HelpDecode decode, ref CAT21Helper cat21Helper, string[] hexMessageArray, int id, string[] messageBinary)
         {
             try
             {
@@ -235,7 +235,7 @@ namespace DecerixUPC.Libraries
                 int octetsFSPEC = FSPEC0.Length / 7;
                 int index = 3 + octetsFSPEC;
                 this.FSPEC = FSPEC0.ToCharArray(0, FSPEC0.Length);
-                this.message = decode.MessageToBinary(hexMessageArray);
+                this.message = messageBinary;
                 // Data Item Header
                 this.Id = id;
                 this.numOctets = hexMessageArray.Length;

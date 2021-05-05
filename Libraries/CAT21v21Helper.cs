@@ -9,14 +9,8 @@ namespace DecerixUPC.Libraries
     class CAT21Helper
     {
         public HelpDecode lib;
-        readonly string FSPEC1;
-        readonly string[] mensaje;
-        public string CAT = "21 v. 2.1";
-        public int num;
-        public int cat21;
-        public int airportCode;
 
-        public CAT21Helper(HelpDecode decode)
+        public CAT21Helper(ref HelpDecode decode)
         {
             this.lib = decode;
         }
@@ -66,6 +60,7 @@ namespace DecerixUPC.Libraries
 
         public string SAC;
         public string SIC;
+        public int airportCode;
         public int Compute_Data_Source_Identification(string[] message, int pos)
         {
             SAC = Convert.ToString(Convert.ToInt32(message[pos], 2));

@@ -10,8 +10,7 @@ namespace DecerixUPC.Libraries
     class CAT10Helper
     {   
         private HelpDecode lib;
-        public char[] FSPEC;
-        public CAT10Helper(HelpDecode decode)
+        public CAT10Helper(ref HelpDecode decode)
         {
             this.lib = decode;
         }
