@@ -36,6 +36,8 @@ namespace DecerixUPC
             this.cat21DataView = new System.Windows.Forms.Button();
             this.allDataView = new System.Windows.Forms.Button();
             this.cat10DataView = new System.Windows.Forms.Button();
+            this.cat10Table = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.cat10Table)).BeginInit();
             this.SuspendLayout();
             // 
             // mapView
@@ -125,6 +127,18 @@ namespace DecerixUPC
             this.cat10DataView.TabIndex = 6;
             this.cat10DataView.Text = "cat10DataView";
             this.cat10DataView.UseVisualStyleBackColor = false;
+            this.cat10DataView.Click += new System.EventHandler(this.cat10DataView_Click);
+            // 
+            // cat10Table
+            // 
+            this.cat10Table.AllowUserToAddRows = false;
+            this.cat10Table.AllowUserToDeleteRows = false;
+            this.cat10Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.cat10Table.Location = new System.Drawing.Point(187, 13);
+            this.cat10Table.Name = "cat10Table";
+            this.cat10Table.ReadOnly = true;
+            this.cat10Table.Size = new System.Drawing.Size(728, 457);
+            this.cat10Table.TabIndex = 7;
             // 
             // DecodeFile
             // 
@@ -133,6 +147,7 @@ namespace DecerixUPC
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(927, 482);
+            this.Controls.Add(this.cat10Table);
             this.Controls.Add(this.cat10DataView);
             this.Controls.Add(this.allDataView);
             this.Controls.Add(this.cat21DataView);
@@ -143,6 +158,7 @@ namespace DecerixUPC
             this.Name = "DecodeFile";
             this.Text = "UPC DECERIX";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.cat10Table)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -156,6 +172,7 @@ namespace DecerixUPC
         private System.Windows.Forms.Button cat21DataView;
         private System.Windows.Forms.Button allDataView;
         private System.Windows.Forms.Button cat10DataView;
+        private System.Windows.Forms.DataGridView cat10Table;
     }
 }
 

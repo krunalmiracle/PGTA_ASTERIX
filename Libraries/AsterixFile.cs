@@ -15,9 +15,8 @@ namespace DecerixUPC.Libraries
         List<string[]> listhex = new List<string[]>();
         List<CAT10> listCAT10 = new List<CAT10>();
         List<CAT21> listCAT21 = new List<CAT21>();
-        
-        List<int> datablocks = new List<int>();
-        
+        public DataTable tablaCAT10 = new DataTable();
+
 
         public List<CAT10> getListCAT10()
         {
@@ -31,11 +30,6 @@ namespace DecerixUPC.Libraries
         public List<string[]> getHex()
         {
             return listhex;
-        }
-
-        public List<int> getDataBlocks()
-        {
-            return datablocks;
         }
         private static string ToHex(byte[] bytes)
         {
@@ -127,7 +121,7 @@ namespace DecerixUPC.Libraries
             string a = ";";
         }
 
-        public DataTable tablaCAT10 = new DataTable();
+
         public void AddRowTable10(CAT10 Message)
         {
             var row = tablaCAT10.NewRow();
@@ -192,10 +186,11 @@ namespace DecerixUPC.Libraries
         }
         public void StartTable10()
         {
-            tablaCAT10.Columns.Add("Number", typeof(int));
+            tablaCAT10.Columns.Add("Number");
             tablaCAT10.Columns.Add("Category");
             tablaCAT10.Columns.Add("SAC");
             tablaCAT10.Columns.Add("SIC");
+
             tablaCAT10.Columns.Add("Target\nIdentification");
             tablaCAT10.Columns.Add("Track\nNumber");
             tablaCAT10.Columns.Add("Target\nReport\nDescriptor");
@@ -212,7 +207,7 @@ namespace DecerixUPC.Libraries
             tablaCAT10.Columns.Add("Target\nAddress");
             tablaCAT10.Columns.Add("System\nStatus");
             tablaCAT10.Columns.Add("Vehicle Fleet\nIdentification");
-            tablaCAT10.Columns.Add("Pre-programmed\nMessage");
+            //tablaCAT10.Columns.Add("Pre-programmed\nMessage");
             tablaCAT10.Columns.Add("Measured\nHeight");
             tablaCAT10.Columns.Add("Mode-3A\nCode");
             tablaCAT10.Columns.Add("Mode S MB\nData");
