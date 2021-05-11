@@ -147,7 +147,7 @@ namespace DecerixUPC
             this.catTable.Location = new System.Drawing.Point(187, 13);
             this.catTable.Name = "catTable";
             this.catTable.ReadOnly = true;
-            this.catTable.Size = new System.Drawing.Size(728, 457);
+            this.catTable.Size = new System.Drawing.Size(1461, 702);
             this.catTable.TabIndex = 7;
             // 
             // DecodeFile
@@ -156,7 +156,7 @@ namespace DecerixUPC
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(927, 482);
+            this.ClientSize = new System.Drawing.Size(1660, 727);
             this.Controls.Add(this.catTable);
             this.Controls.Add(this.cat10DataView);
             this.Controls.Add(this.allDataView);

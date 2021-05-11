@@ -300,7 +300,10 @@ namespace DecerixUPC.Libraries
                 message = messageBinary;
                 this.Id = id;
                 this.numOctets = array.Length;
-
+                if (id == 34)
+                {
+                    String ds = "";
+                }
                 /* From now on each function looks to see if the decoding parameter exists in the 
                 message (checking if the FSPEC in its position == 1) and if it exists calls the function to decode the parameter */
 

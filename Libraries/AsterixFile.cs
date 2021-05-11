@@ -122,9 +122,9 @@ namespace DecerixUPC.Libraries
                 }
                 else if (arraystring[0] == "15")
                 {
-                    temp21 = new CAT21(ref decode, ref cat21Helper, arraystring, q, messagesBinary[q]);
+                    /*temp21 = new CAT21(ref decode, ref cat21Helper, arraystring, q, messagesBinary[q]);
                     arrCat21.Add(temp21);
-                    AddRowTable21(temp21);
+                    AddRowTable21(temp21);*/
                 }
             }
             string a = ";";

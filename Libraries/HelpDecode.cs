@@ -9,6 +9,7 @@ namespace DecerixUPC.Libraries
 {
     class HelpDecode
     {
+        static List<string> codelist = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         public string getFSPEC(string[] message)
         {
             string FSPEC = "";
@@ -127,7 +128,7 @@ namespace DecerixUPC.Libraries
         public string Compute_Char(string Char)
         {
             int code = Convert.ToInt32(Char, 2);
-            List<string> codelist = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            
             if (code == 0)
                 return "";
             else
@@ -155,7 +156,6 @@ namespace DecerixUPC.Libraries
         public string Code2Char(string Char)
         {
             int code = Convert.ToInt32(Char, 2);
-            List<string> codelist = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             if (code == 0)
                 return "";
             else
